@@ -1,42 +1,392 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* =========================
+   SINTROPIA - GLOBALS (CLARO SIEMPRE, SIN DEGRADADOS)
+   Tipos via next/font (variables):
+   - --font-display (Raleway)
+   - --font-body (Montserrat)
+   ========================= */
+
+:root{
+  /* Marca */
+  --green: #C1FF72;  /* principal */
+  --purple: #7753F5; /* usar poco */
+  --black: #060709;
+  --gray: #D9D9D9;
+
+  /* ✅ Tema claro fijo */
+  --bg: #FFFFFF;
+  --on-bg: var(--black);
+  --muted: rgba(6,7,9,.62);
+
+  /* ✅ Superficies claras (NADA oscuro) */
+  --surface: #FFFFFF;
+  --surface-2: rgba(6,7,9,.03);
+
+  /* Bordes / sombras (outline limpio) */
+  --border: rgba(193,255,114,.55);     /* borde “marca” */
+  --border-soft: rgba(6,7,9,.14);      /* borde neutro */
+  --shadow: 0 14px 28px rgba(2,6,23,.10);
+
+  --radius: 18px;
+  --radius-sm: 14px;
+
+  --focus: rgba(193,255,114,.35);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* =========================
+   BASE / RESET
+   ========================= */
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+body{
+  margin: 0;
+  background: var(--bg);
+  color: var(--on-bg);
+  font-family: var(--font-body), system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
+a{ color: inherit; text-decoration: none; }
+
+h1,h2,h3,h4,h5,h6{
   margin: 0;
+  font-family: var(--font-display), system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  letter-spacing: -0.02em;
 }
 
-a {
-  color: inherit;
+p{ margin: 0; }
+.muted{ color: var(--muted); }
+
+.container{
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+/* =========================
+   UI “TRAZADO / OUTLINE” (CLARO)
+   ========================= */
+.card{
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.card.brand{
+  border-color: var(--border);
+}
+
+.badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--on-bg);
+
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* =========================
+   BOTONES (SIN DEGRADADOS)
+   ========================= */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+
+  border: 1px solid var(--border-soft);
+  background: transparent;
+  color: var(--on-bg);
+
+  font-weight: 800;
+  cursor: pointer;
+
+  transition: transform .08s ease, background .12s ease, border-color .12s ease, filter .12s ease;
+}
+
+/* hover sutil (sin degradado) */
+.btn:hover{
+  border-color: var(--border);
+  background: rgba(193,255,114,.12);
+}
+
+.btn:active{
+  transform: translateY(1px);
+}
+
+.btn:focus-visible{
+  outline: 0;
+  box-shadow: 0 0 0 4px var(--focus);
+}
+
+/* CTA principal */
+.btn.primary{
+  background: var(--green);
+  color: var(--black);
+  border-color: var(--green);
+}
+
+.btn.primary:hover{
+  filter: brightness(1.03);
+}
+
+/* Secondary */
+.btn.secondary{
+  background: var(--surface-2);
+}
+
+/* =========================
+   INPUTS (outline claro)
+   ========================= */
+.input{
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+
+  border: 1px solid var(--border-soft);
+  background: transparent;
+
+  color: var(--on-bg);
+  outline: none;
+}
+
+.input::placeholder{
+  color: rgba(6,7,9,.45);
+}
+
+.input:focus{
+  border-color: var(--green);
+  box-shadow: 0 0 0 4px var(--focus);
+}
+
+/* =========================
+   UTILIDADES
+   ========================= */
+.grid{ display: grid; gap: 16px; }
+
+hr.sep{
+  border: 0;
+  border-top: 1px solid var(--border-soft);
+  margin: 36px 0;
+  opacity: .9;
+}
+.wrap{
+  position: fixed;
+  top: 18px;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  padding: 0 18px;
+
+  /* para que solo el nav sea clickeable */
+  pointer-events: none;
+}
+
+.nav{
+  pointer-events: auto;
+
+  height: 58px;
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 140px 1fr 140px;
+  align-items: center;
+
+  background: #fff;
+  border: 1px solid rgba(6,7,9,.12);
+  border-radius: 999px;
+  box-shadow: 0 14px 28px rgba(2,6,23,.10);
+
+  padding: 0 12px;
+
+  transition:
+    width .22s ease,
+    height .22s ease,
+    padding .22s ease,
+    border-radius .22s ease,
+    box-shadow .22s ease,
+    transform .22s ease;
+}
+
+/* LOGO (en modo full) */
+.logo{
+  justify-self: start;
+
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+
+  border-radius: 999px;
+  border: 1px solid rgba(6,7,9,.10);
+  background: rgba(6,7,9,.02);
+
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.logoMark{
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(6,7,9,.88);
+}
+
+/* LINKS (centro) */
+.links{
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  transition: opacity .16s ease, transform .16s ease;
+}
+
+.linkItem{
+  position: relative;
+}
+
+.link{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+
+  color: rgba(6,7,9,.62);
+  padding: 10px 2px;
+
+  transition: color .15s ease;
+}
+
+.link:hover{
+  color: rgba(6,7,9,.92);
+}
+
+/* Puntito del activo */
+.active{
+  color: rgba(6,7,9,.92);
+}
+.active::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  transform: translateX(-50%);
+
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(6,7,9,.92);
+}
+
+/* CTA (derecha) */
+.cta{
+  justify-self: end;
+
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 16px;
+  border-radius: 999px;
+
+  background: rgba(6,7,9,.92);
+  border: 1px solid rgba(6,7,9,.92);
+
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+
+  text-decoration: none;
+
+  transition: opacity .16s ease, transform .16s ease, filter .15s ease;
+}
+
+.cta:hover{
+  filter: brightness(1.05);
+}
+.cta:active{
+  transform: translateY(1px);
+}
+
+/* =========================
+   MODO COMPACTO (CÍRCULO CON SOLO LOGO)
+   ========================= */
+.compact{
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border-radius: 999px;
+  grid-template-columns: 1fr;
+
+  /* un toque más “flotante” */
+  box-shadow: 0 18px 34px rgba(2,6,23,.14);
+}
+
+/* Ocultar links y CTA cuando compact */
+.compact .links,
+.compact .cta{
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}
+
+/* Logo centrado y sin “pill” dentro (para que SOLO se vea el logo en el círculo) */
+.compact .logo{
+  justify-self: center;
+
+  height: 100%;
+  width: 100%;
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  justify-content: center;
+}
+
+.compact .logoMark{
+  font-size: 11px;
+  letter-spacing: .12em;
+}
+
+/* Responsive */
+@media (max-width: 680px){
+  .nav{
+    grid-template-columns: 120px 1fr 120px;
+  }
+  .links{
+    display: none;
   }
 }
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .nav, .links, .cta{
+    transition: none !important;
+  }
+}
+
+html { scroll-behavior: smooth; }
+section { scroll-margin-top: 90px; }
