@@ -72,12 +72,13 @@
 .title{
   margin-top: 22px;
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: -0.03em;
 
-  font-size: clamp(40px, 6vw, 72px);
+  font-size: clamp(40px, 6vw, 90px);
   line-height: 1.03;
-
+margin-top: 30px;
+margin-bottom: 30px;
   color: rgba(6,7,9,.92);
 }
 
@@ -107,7 +108,7 @@
   max-width: 760px;
 
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.55;
 
   color: rgba(6,7,9,.62);
