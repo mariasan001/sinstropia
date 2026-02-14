@@ -24,8 +24,7 @@ export default function Hero() {
         {/* Subtitle */}
         <p className={s.subtitle}>
           Creamos sistemas web y aplicaciones móviles con intención: experiencia clara, estructura sólida
-          y despliegue sin caos. Te acompañamos desde el primer trazo hasta el primer usuario, el primer pago
-          y la evolución constante del producto.
+          y despliegue sin caos. 
         </p>
 
         {/* CTAs */}

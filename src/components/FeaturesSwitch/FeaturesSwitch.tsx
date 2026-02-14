@@ -1,85 +1,27 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import s from './FeaturesSwitch.module.scss';
 
-type Logo = {
-  src: string;
-  alt: string;
-  w?: number;
-  h?: number;
-};
-
-type FeatureCard = {
-  title: string;
-  desc: string;
-  meta?: string;
-};
-
-type HeroMedia =
-  | { type: 'image'; src: string; alt: string }
-  | {
-      type: 'video';
-      alt: string;
-      poster?: string;
-      sources: Array<{ src: string; mime: string }>;
-    };
-
-type CollabNote = {
-  leftLogo: Logo;
-  rightLogo: Logo;
-  eyebrow: string;
-  title: string;
-  lines: string[];
-  footer: string;
-};
+type Logo = { src: string; alt: string; w?: number; h?: number };
+type FeatureCard = { title: string; desc: string; meta?: string };
 
 type BrandPreset = {
   id: string;
   logo: Logo;
-
   headline: string;
   subhead: string;
   cards: FeatureCard[];
-
-  heroMedia?: HeroMedia; // solo DaBook
-  collabNote?: CollabNote; // solo DaBook
 };
 
 const PRESETS: BrandPreset[] = [
   {
     id: 'DaBook',
     logo: { src: '/img/dabook.png', alt: 'DaBook', w: 120, h: 28 },
-
-    headline: 'Crea, enseña y vende con tu plataforma',
+    headline: 'DA BOOK',
     subhead:
-      'Es el espacio donde artistas y creadores publican cursos, artículos, venden y definen sus propias reglas. Todo en un solo lugar, listo para escalar.',
-
-    heroMedia: {
-      type: 'image',
-      src: '/img/img_dabook.png',
-      alt: 'Vista previa de DaBook',
-    },
-
-    collabNote: {
-      leftLogo: { src: '/img/fav-icon.png', alt: 'Sintro', w: 28, h: 28 },
-      rightLogo: { src: '/img/dabook.png', alt: 'DaBook', w: 28, h: 28 },
-      eyebrow: 'colaboración',
-      title: 'Cuando el diseño y el código se dan la mano, la idea deja de ser idea.',
-      lines: [
-        'En Sintro lo volvemos claridad, ritmo y experiencia.',
-        'En DaBook se vuelve comunidad, contenido y ventas.',
-        '',
-      ],
-      footer: '',
-    },
-
-    cards: [
-      { title: 'Módulos listos', desc: 'Blog, cursos, tienda y licencias con un camino claro para escalar.', meta: 'MVP' },
-      { title: 'UX con intención', desc: 'Pantallas que guían, reducen fricción y se sienten “producto”.', meta: 'UI/UX' },
-      { title: 'Base sólida', desc: 'Arquitectura por features, tipado fuerte y código mantenible.', meta: 'Next / TS' },
-      { title: 'De deploy a evolución', desc: 'Publicación, mejoras, métricas y roadmap: el producto no se abandona.', meta: 'Ship ✅' },
-    ],
+      'El espacio donde artistas y creadores publican cursos, artículos, venden y definen sus propias reglas. Todo en un solo lugar, listo para escalar.',
+    cards: [],
   },
 
   {
@@ -135,222 +77,113 @@ const PRESETS: BrandPreset[] = [
   },
 ];
 
-function CollabInviteCard({ note }: { note: CollabNote }) {
+function DaBookCenteredHero({ subtitle }: { subtitle: string }) {
   return (
-    <div className={s.inviteOuter} role="note" aria-label="Nota de colaboración">
-      <div className={s.inviteInner}>
-        {/* Header (avatar + nombre) */}
-        <div className={s.inviteHeader}>
-          <span className={s.inviteAvatar} aria-hidden="true">
-            <img src={note.leftLogo.src} alt={note.leftLogo.alt} draggable={false} />
-          </span>
+    <div className={s.dbHero}>
+      <div className={s.dbStage}>
+        {/* doodles orbitando (decorativos) */}
+        <div className={s.dbDoodles} aria-hidden="true">
+          {/* chat bubble */}
+          <div className={`${s.doodle} ${s.doodleBubble}`}>
+            <svg viewBox="0 0 80 80" fill="none">
+              <path
+                d="M18 22 C18 16, 23 12, 30 12 H52 C59 12, 64 16, 64 22 V42 C64 48, 59 52, 52 52 H38 L26 62 V52 H30 C23 52, 18 48, 18 42 V22 Z"
+                stroke="currentColor"
+                strokeWidth="5"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
 
-          <div className={s.inviteHeadText}>
-            <b className={s.inviteName}>Sintro × DaBook</b>
-            <span className={s.inviteEyebrow}>{note.eyebrow}</span>
+          {/* cursor (más “Figma vibe”) */}
+          <div className={`${s.doodle} ${s.doodleCursor}`}>
+            <svg viewBox="0 0 64 64" fill="none">
+              <path
+                d="M18 12 L46 40 L34 40 L40 54 L34 56 L28 42 L18 50 L18 12 Z"
+                stroke="currentColor"
+                strokeWidth="5"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+
+          {/* sticky note (amarillo/verde, tu elección por tokens) */}
+          <div className={`${s.doodle} ${s.doodleNote}`} />
+
+          {/* dotted connector (pizarrón) */}
+          <div className={`${s.doodle} ${s.doodleDotted}`} />
+
+          {/* scribbles sutiles detrás del texto */}
+          <div className={`${s.doodle} ${s.doodleScribbleA}`} />
+          <div className={`${s.doodle} ${s.doodleScribbleB}`} />
+
+          {/* wave line */}
+          <div className={`${s.doodle} ${s.doodleWave}`}>
+            <svg viewBox="0 0 320 110" fill="none">
+              <path
+                d="M10 70 C 60 20, 110 105, 160 60 S 250 15, 310 70"
+                stroke="currentColor"
+                strokeWidth="8"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+
+          {/* creator callouts (no invaden el centro por mask) */}
+          <div className={`${s.doodle} ${s.doodleCallout} ${s.dcA}`}>
+            <span className={s.dcTag}>Artista</span>
+            <b>Ana</b>
+          </div>
+
+          <div className={`${s.doodle} ${s.doodleCallout} ${s.dcB}`}>
+            <span className={s.dcTag}>Profesor</span>
+            <b>Mark</b>
+          </div>
+
+          <div className={`${s.doodle} ${s.doodleCallout} ${s.dcC}`}>
+            <span className={s.dcTag}>Creadora</span>
+            <b>Elena</b>
+          </div>
+
+          {/* module pills */}
+          <div className={`${s.doodle} ${s.doodlePill} ${s.dpA}`}>Cursos</div>
+          <div className={`${s.doodle} ${s.doodlePill} ${s.dpB}`}>Artículos</div>
+          <div className={`${s.doodle} ${s.doodlePill} ${s.dpC}`}>Tienda</div>
+          <div className={`${s.doodle} ${s.doodlePill} ${s.dpD}`}>Licencias</div>
+        </div>
+
+        {/* contenido centrado */}
+        <div className={s.dbContent}>
+          <h2 className={s.dbTitle}>DA BOOK</h2>
+
+          <p className={s.dbSubtitle}>{subtitle}</p>
+
+        <a
+          href="https://dabook.sintropia-dev.com/"
+          className={s.dbCta}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Explorar DaBook <span aria-hidden="true">→</span>
+        </a>
+
+          <div className={s.dbProof}>
+            <div className={s.dbAvatars} aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+            <div className={s.dbProofText}>
+              <b>+</b> <span>se parte de la familia dabook</span>
+            </div>
           </div>
         </div>
-
-        {/* Title + badge (iconito a la derecha como la imagen) */}
-        <div className={s.inviteTitleRow}>
-          <p className={s.inviteTitle}>{note.title}</p>
-
-          <span className={s.inviteBadge} aria-hidden="true">
-            <img src={note.rightLogo.src} alt={note.rightLogo.alt} draggable={false} />
-          </span>
-        </div>
-
-        <div className={s.inviteDivider} aria-hidden="true" />
-
-        {/* Body (texto gris, y el “Juntos…” fuerte) */}
-        <div className={s.inviteBody}>
-          {note.lines.map((x) => (
-            <p key={x}>{x}</p>
-          ))}
-        </div>
-
-        <div className={s.inviteFooter}>{note.footer}</div>
       </div>
     </div>
   );
 }
 
-
-function DaBookHero({
-  subtitle,
-  media,
-  collab,
-}: {
-  subtitle: string;
-  media?: HeroMedia;
-  collab?: CollabNote;
-}) {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const viewportRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (!media || media.type !== 'video') return;
-    const video = videoRef.current;
-    const target = viewportRef.current;
-    if (!video || !target) return;
-
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    const safePlay = async () => {
-      if (prefersReduced) return;
-      try {
-        await video.play();
-      } catch {
-        // policies: si falla, no pasa nada
-      }
-    };
-
-    const safePause = () => {
-      try {
-        video.pause();
-      } catch {
-        // ignore
-      }
-    };
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.35) safePlay();
-        else safePause();
-      },
-      { threshold: [0, 0.15, 0.35, 0.6, 1] }
-    );
-
-    io.observe(target);
-
-    const onVis = () => {
-      if (document.visibilityState !== 'visible') safePause();
-    };
-    document.addEventListener('visibilitychange', onVis);
-
-    safePlay();
-
-    return () => {
-      io.disconnect();
-      document.removeEventListener('visibilitychange', onVis);
-    };
-  }, [media]);
-
-  return (
-    <div className={s.dbWrap}>
-      <div className={s.dbTop}>
-        <h2 className={s.dbTitle}>DA BOOK</h2>
-        <p className={s.dbSubtitle}>{subtitle}</p>
-
-        <div className={s.dbCtas}>
-          <a className={s.dbPrimary} href="#contact">
-            Contactar
-          </a>
-          <a className={s.dbSecondary} href="#projects">
-            Explorar DaBook
-          </a>
-        </div>
-
-        <div className={s.dbProof}>
-          <div className={s.dbAvatars} aria-hidden="true">
-            <span />
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className={s.dbProofText}>
-            <b>60k+</b> <span>creadores</span>
-          </div>
-        </div>
-      </div>
-
-      <div className={s.dbGrid}>
-        <aside className={s.dbSideLeft} aria-hidden="true">
-          <div className={s.dbMiniGrid}>
-            {[
-              ['A1', 'Inicia'],
-              ['A2', 'Avanza'],
-              ['B1', 'Crece'],
-              ['B2', 'Pulido'],
-              ['C1', 'Pro'],
-              ['C2', 'Mastery'],
-            ].map(([tag, label]) => (
-              <div key={tag} className={s.dbMiniCard}>
-                <span className={s.dbTag}>{tag}</span>
-                <span className={s.dbMiniText}>{label}</span>
-              </div>
-            ))}
-          </div>
-        </aside>
-
-        <main className={s.dbCenter}>
-          <div className={s.dbScreen} aria-label="Vista previa de DaBook">
-            <div className={s.dbScreenTop} aria-hidden="true">
-              <div className={s.dbDots}>
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className={s.dbAddress} />
-            </div>
-
-            <div className={s.dbScreenPad}>
-              <div ref={viewportRef} className={s.dbViewport}>
-                {media?.type === 'video' ? (
-                  <video
-                    ref={videoRef}
-                    className={s.dbViewportMedia}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    poster={media.poster}
-                    aria-label={media.alt}
-                  >
-                    {media.sources.map((src) => (
-                      <source key={src.src} src={src.src} type={src.mime} />
-                    ))}
-                  </video>
-                ) : media?.type === 'image' ? (
-                  <img
-                    className={s.dbViewportMedia}
-                    src={media.src}
-                    alt={media.alt}
-                    loading="lazy"
-                    draggable={false}
-                  />
-                ) : (
-                  <div className={s.dbViewportPh} aria-hidden="true">
-                    <div className={s.dbPhHero} />
-                    <div className={s.dbPhLines}>
-                      <span />
-                      <span />
-                      <span />
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className={s.dbPager} aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </div>
-          </div>
-        </main>
-
-        <aside className={s.dbSideRight} aria-label="Colaboración Sintro y DaBook">
-          {collab ? <CollabInviteCard note={collab} /> : null}
-        </aside>
-      </div>
-    </div>
-  );
-}
 
 export default function FeaturesSwitch() {
   const [activeId, setActiveId] = useState<string>(PRESETS[0].id);
@@ -395,7 +228,7 @@ export default function FeaturesSwitch() {
         </div>
 
         {isDaBook ? (
-          <DaBookHero subtitle={active.subhead} media={active.heroMedia} collab={active.collabNote} />
+          <DaBookCenteredHero subtitle={active.subhead} />
         ) : (
           <>
             <div className={s.header}>
