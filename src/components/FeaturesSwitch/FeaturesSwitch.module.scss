@@ -1,646 +1,83 @@
 /* =========================================================
-   FeaturesSwitch.module.scss (COMPLETO)
+   FeaturesSwitch.module.scss — BLANCO, LIMPIO, SOLO TEXTO + CTA
    ========================================================= */
 
 .section {
-  padding: 44px 0 28px;
+  padding: 56px 0 56px;
+  background: #fff; /* ✅ blanco literal */
 }
 
-/* =========================
-   Logos row
-   ========================= */
-.logoRow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
 
-  padding: 18px 0 22px;
-  margin-bottom: 26px;
-
-  border-bottom: 1px solid var(--border-soft);
-
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-.logoBtn {
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-
-  padding: 10px 14px;
-  border-radius: 16px;
-
-  transition: background 0.15s ease, transform 0.08s ease;
-  scroll-snap-align: center;
-
-  &:hover {
-    background: rgba(6, 7, 9, 0.02);
-  }
-
-  &:active {
-    transform: translateY(1px);
-  }
-
-  &:focus-visible {
-    outline: 0;
-    box-shadow: 0 0 0 4px var(--focus);
-  }
-}
-
-.logoBtnActive {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(6, 7, 9, 0.08);
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    left: 16px;
-    right: 16px;
-    bottom: 6px;
-    height: 2px;
-    border-radius: 999px;
-    background: rgba(40, 68, 3, 0.95);
-  }
-}
-
-.logoImg {
-  display: block;
-  object-fit: contain;
-  filter: grayscale(1) contrast(0.95) brightness(0.95);
-  opacity: 0.52;
-  transform: translateY(1px);
-  transition: filter 0.18s ease, opacity 0.18s ease, transform 0.18s ease;
-  user-select: none;
-  pointer-events: none;
-}
-
-.logoImgActive {
-  filter: none;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.logoBtn:hover .logoImg {
-  opacity: 0.72;
-}
-
-/* =========================
-   Header normal (partners)
-   ========================= */
-.header {
-  text-align: center;
-  max-width: 1000px;
-  margin: 0 auto 20px;
+  min-height: clamp(360px, 50vh, 520px);
   display: grid;
-  gap: 10px;
+  place-content: center;
   justify-items: center;
-}
-
-.pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 28px;
-  padding: 0 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border-soft);
-  background: rgba(6, 7, 9, 0.02);
-  font-weight: 800;
-  font-size: 12px;
-  color: rgba(6, 7, 9, 0.72);
+  text-align: center;
+  gap: 16px;
 }
 
 .title {
   margin: 0;
-  font-family: var(--font-display);
+  font-family: var(--font-display, system-ui);
   font-weight: 900;
-  letter-spacing: -0.03em;
-  line-height: 1.06;
-  font-size: clamp(26px, 3.4vw, 44px);
-  color: rgba(6, 7, 9, 0.92);
-}
-
-.sub {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.6;
-  color: rgba(6, 7, 9, 0.62);
-}
-
-/* =========================
-   Cards grid (partners)
-   ========================= */
-.grid {
-  display: grid;
-  gap: 18px;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  animation: fadeUp 0.22s ease both;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.card {
-  border-radius: 22px;
-  background: #fff;
-  border: 1px solid rgba(6, 7, 9, 0.1);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  display: grid;
-  grid-template-rows: 220px auto;
-}
-
-.preview {
-  position: relative;
-  background: rgba(6, 7, 9, 0.03);
-  border-bottom: 1px solid rgba(6, 7, 9, 0.08);
-}
-
-.previewTop {
-  position: absolute;
-  left: 16px;
-  top: 16px;
-  right: 16px;
-  height: 14px;
-  border-radius: 999px;
-  background: rgba(6, 7, 9, 0.08);
-}
-
-.previewLines {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
-  display: grid;
-  gap: 10px;
-
-  span {
-    height: 12px;
-    border-radius: 999px;
-    background: rgba(6, 7, 9, 0.08);
-
-    &:nth-child(2) { width: 86%; }
-    &:nth-child(3) { width: 72%; }
-  }
-}
-
-.cardBody { padding: 16px 16px 18px; }
-
-.cardHead {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.cardTitle {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 16px;
-  color: rgba(6, 7, 9, 0.92);
-}
-
-.meta {
-  font-size: 12px;
-  font-weight: 900;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(193, 255, 114, 0.65);
-  background: rgba(193, 255, 114, 0.18);
-  color: rgba(6, 7, 9, 0.78);
-}
-
-.cardDesc {
-  margin: 10px 0 0;
-  color: rgba(6, 7, 9, 0.62);
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-/* =========================================================
-   DaBook HERO — CENTERED Whiteboard (tipos + espacio + no overlap)
-   ========================================================= */
-
-.dbHero {
-  padding: 10px 0 6px;
-
-  /* Tokens locales (toman tus variables globales si existen) */
-  --db-black: var(--black, #060709);
-  --db-fuchsia: var(--fuchsia, #ff2ea1);
-  --db-purple: var(--purple, #7753F5);
-  --db-green: var(--green, #C1FF72);
-  --db-yellow: var(--yellow, #DCD917);
-
-  /* Tipografías */
-  --ff-title: var(--font-title, var(--font-display, 'Montserrat', system-ui));
-  --ff-body: var(--font-body, 'Raleway', system-ui);
-}
-
-.dbStage {
-  position: relative;
-  border-radius: 32px;
-  background: #fff;
-  overflow: hidden;
-
-  /* ✅ más aire lateral */
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-
-  padding: clamp(52px, 6.5vw, 96px);
-  min-height: 620px;
-
-  display: grid;
-  place-items: center;
-
-  /* dot-paper / figma-canvas */
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.62;
-    background: radial-gradient(rgba(6,7,9,0.07) 1px, transparent 1px);
-    background-size: 24px 24px;
-
-    /* ✅ safe zone más grande (evita invadir centro) */
-    mask-image: radial-gradient(circle at 50% 42%, transparent 0 300px, #000 360px);
-    -webkit-mask-image: radial-gradient(circle at 50% 42%, transparent 0 300px, #000 360px);
-  }
-}
-
-/* contenido centrado */
-.dbContent {
-  position: relative;
-  z-index: 2;
-
-  display: grid;
-  gap: 16px;
-  justify-items: center;
-  text-align: center;
-
-  max-width: 860px;
-}
-
-.dbTitle {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 700;
   letter-spacing: -0.06em;
   line-height: 0.95;
-
-  /* ✅ MÁS grande */
-  font-size: clamp(76px, 8.5vw, 122px);
+  font-size: clamp(56px, 8vw, 118px);
   color: rgba(6, 7, 9, 0.96);
 }
 
-.dbSubtitle{
+.subtitle {
   margin: 0;
-  max-width: 980px;
+  max-width: 880px;
 
-  font-family: var(--font-display);
-  font-weight: 500; /* ✅ subtítulo, no título */
+  font-family: var(--font-display, system-ui);
+  font-weight: 500;
   letter-spacing: -0.02em;
-  line-height: 1.12;
+  line-height: 1.22;
 
-  font-size: clamp(18px, 2.35vw, 32px);
-  color: rgba(6,7,9,.92);
+  font-size: clamp(16px, 2.15vw, 28px);
+  color: rgba(6, 7, 9, 0.86);
 }
 
-
-
-
-/* CTA centrado */
-.dbCta {
+.cta {
+  margin-top: 8px;
   height: 56px;
-  border-radius: 999px;
-  border: 0;
-  cursor: pointer;
-
   padding: 0 22px;
+
+  border-radius: 999px;
+  background: rgba(6, 7, 9, 0.96);
+  color: #fff;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 14px;
 
-  background: rgba(6, 7, 9, 0.96);
-  color: #fff;
-  font-weight: 300;
+  font-family: var(--font-display, system-ui);
+  font-weight: 650;
   font-size: 15px;
-  font-family: var(--font-display);
 
+  text-decoration: none;
   transition: transform 0.08s ease, filter 0.15s ease;
 
   span {
-    color: var(--db-fuchsia);
+    color: var(--fuchsia, #ff2ea1);
     font-weight: 950;
   }
 
   &:hover { filter: brightness(1.04); }
   &:active { transform: translateY(1px); }
-}
-
-/* proof centrado */
-.dbProof {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 10px;
-}
-
-.dbAvatars {
-  display: inline-flex;
-  align-items: center;
-
-  span {
-    width: 26px;
-    height: 26px;
-    border-radius: 999px;
-    border: 2px solid #fff;
-    background: rgba(6, 7, 9, 0.12);
-    margin-left: -8px;
-
-    &:first-child { margin-left: 0; }
+  &:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 4px var(--focus, rgba(119, 83, 245, 0.35));
   }
-}
-
-.dbProofText {
-  font-family: var(--ff-body);
-  color: rgba(6, 7, 9, 0.70);
-  font-size: 13px;
-
-  b {
-    color: rgba(6, 7, 9, 0.92);
-    font-weight: 950;
-  }
-}
-
-/* =========================================================
-   Doodles orbitando — con “zona segura” (NO invaden el centro)
-   ========================================================= */
-
-.dbDoodles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-
-
-}
-
-.doodle {
-  position: absolute;
-  transform: translateZ(0);
-  will-change: transform;
-}
-
-/* chat bubble */
-.doodleBubble {
-  top: 14%;
-  left: 16%;
-  width: 59px;
-  height: 54px;
-  color: rgba(79, 79, 79, 0.236);
-
-  /* ✅ menos flotar */
-  animation: driftB 10.5s ease-in-out infinite;
-
-  svg { width: 100%; height: 100%; }
-}
-
-/* cursor (más fino) */
-.doodleCursor {
-  top: 12%;
-  right: 28%;
-  width: 42px;
-  height: 42px;
-  color: rgba(6, 7, 9, 0.18);
-  animation: driftC 12s ease-in-out infinite;
-
-  svg { width: 100%; height: 100%; }
-
-  /* ✅ si tu cursor es stroke-based */
-  svg path,
-  svg polyline,
-  svg line {
-    stroke-width: 2.2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-}
-
-/* sticky note (más “real”) */
-.doodleNote {
-  top: 50%;
-  right: 1%;
-  width: 96px;
-  height: 96px;
-  border-radius: 16px;
-
-  /* ✅ amarillo / post-it */
-  background: color-mix(in srgb, var(--db-yellow) 64%, white);
-  box-shadow: 0 16px 34px rgba(2, 6, 23, 0.06);
-  transform: rotate(4deg);
-
-  animation: driftA 11s ease-in-out infinite;
-}
-
-/* ❌ dotted connector: lo quitamos (el dot-paper manda) */
-.doodleDotted {
-  display: none;
-}
-
-/* scribbles sutiles detrás del texto */
-.doodleScribbleA,
-.doodleScribbleB {
-  left: 10%;
-  transform: translateX(-50%);
-  height: 10px;
-  border-radius: 999px;
-  background: rgba(6, 7, 9, 0.11);
-  opacity: 0.16;
-}
-
-.doodleScribbleA {
-  top: 49%;
-  width: 320px;
-  animation: scribble 9.2s ease-in-out infinite;
-}
-
-.doodleScribbleB {
-  top: 54%;
-  width: 420px;
-  animation: scribble 10.4s ease-in-out infinite;
-  opacity: 0.12;
-}
-
-@keyframes scribble {
-  0%, 100% { transform: translateX(-50%) scaleX(1); }
-  50% { transform: translateX(-50%) scaleX(1.03); }
-}
-
-/* wave line */
-.doodleWave {
-  bottom: 1%;
-  right: 1%;
-  width: 340px;
-  height: 150px;
-  color: rgba(6, 7, 9, 0.22);
-
-  animation: driftC 12.6s ease-in-out infinite;
-
-  svg { width: 100%; height: 100%; }
-}
-
-/* creator callouts (más contrastados, menos “claritos”) */
-.doodleCallout {
-  position: absolute;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-
-  padding: 10px 14px;
-  border-radius: 999px;
-
-  background: rgba(255, 255, 255, 0.86);
-  border: 1px solid rgba(6, 7, 9, 0.08);
-  color: rgba(6, 7, 9, 0.86);
-
-  font-family: var(--ff-body);
-  font-weight: 850;
-  letter-spacing: -0.01em;
-
-  box-shadow: 0 16px 40px rgba(2, 6, 23, 0.06);
-  backdrop-filter: blur(10px);
-
-  /* ✅ ya no “flotan” tanto */
-  animation: driftA 14s ease-in-out infinite;
-
-  b { font-weight: 950; }
-}
-
-.dcTag {
-  font-size: 11px;
-  font-weight: 950;
-  padding: 3px 10px;
-  border-radius: 999px;
-
-  /* ✅ fuchsia real (fallback + mix) */
-  background: rgb(139, 4, 76);
-  color: rgba(255, 255, 255, 0.78);
-}
-
-/* posiciones (más aire, nada encima del texto) */
-.dcA {
-  top: 34%;
-  left: 8%;
-  transform: rotate(-3deg);
-}
-
-.dcB {
-  top: 9%;
-  left: 80%;
-  transform: translateX(-50%) rotate(2deg);
-  animation-delay: .5s;
-}
-
-.dcC {
-  top: 90%;
-  right: 78%;
-  transform: rotate(3deg);
-  animation-delay: .9s;
-}
-
-/* pills */
-.doodlePill {
-  padding: 9px 14px;
-  border-radius: 999px;
-
-  font-family: var(--ff-body);
-  font-weight: 600;
-  font-size: 12px;
-
-  color: rgba(0, 0, 0, 0.78);
-  background: rgb(233, 231, 238);
-
-  animation: driftB 15s ease-in-out infinite;
-}
-
-/* posiciones pills (fuera del centro) */
-.dpA { top: 2%; right: 34%; animation-delay: .2s; }
-.dpB { top:56%; right: 18%; animation-delay: .6s; }
-.dpC { bottom: 34%; left: 6%; animation-delay: 1s; }
-.dpD { bottom: 8%; right: 36%; animation-delay: 1.4s; }
-
-/* drifts (más suaves: menos “flotar”) */
-@keyframes driftA {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-5px) rotate(0deg); }
-}
-@keyframes driftB {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-@keyframes driftC {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-/* =========================================================
-   Motion safety
-   ========================================================= */
-@media (prefers-reduced-motion: reduce) {
-  .doodleBubble,
-  .doodleCursor,
-  .doodleNote,
-  .doodleScribbleA,
-  .doodleScribbleB,
-  .doodleWave,
-  .doodleCallout,
-  .doodlePill {
-    animation: none !important;
-  }
-}
-
-/* =========================================================
-   Responsive
-   ========================================================= */
-@media (max-width: 920px) {
-  .card { grid-template-rows: 200px auto; }
-  .dbStage { padding: clamp(36px, 6vw, 70px); min-height: 600px; }
-  .dbContent { max-width: 780px; }
-  .dbSubtitle { max-width: 680px; }
 }
 
 @media (max-width: 680px) {
-  .dbStage {
-    padding: 22px 16px;
-    min-height: 620px;
-    border-radius: 24px;
-  }
-
-  .dbCta { width: 100%; }
-
-  /* menos ruido: escondemos 1–2 cosas */
-  .doodleWave { width: 240px; right: 6%; bottom: 10%; opacity: 0.85; }
-  .dpD { display: none; }
-
-  .dcA { left: 6%; top: 32%; }
-  .dcC { right: 6%; top: 42%; }
-
-  .doodleScribbleA { width: 320px; top: 53%; }
-  .doodleScribbleB { width: 260px; top: 58%; }
+  .section { padding: 44px 0 44px; }
+  .wrap { min-height: 420px; padding: 0 6px; }
+  .cta { width: 100%; }
 }
