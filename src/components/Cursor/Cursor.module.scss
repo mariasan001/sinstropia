@@ -1,0 +1,93 @@
+.root {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.show {
+  opacity: 1;
+}
+
+.native {
+  opacity: 0;
+}
+
+.core,
+.blob,
+.dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: block;
+  border-radius: 999px;
+  will-change: transform;
+}
+
+.core {
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  background: var(--green);
+  box-shadow: 0 0 0 1px var(--black);
+  transition: transform 0.2s cubic-bezier(0.76, 0, 0.24, 1), background 0.25s ease;
+}
+
+.blob {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  background: color-mix(in srgb, var(--purple) 22%, transparent);
+  border: 1.5px solid var(--purple);
+  transition:
+    width 0.4s cubic-bezier(0.76, 0, 0.24, 1),
+    height 0.4s cubic-bezier(0.76, 0, 0.24, 1),
+    margin 0.4s cubic-bezier(0.76, 0, 0.24, 1),
+    background 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: var(--green);
+  pointer-events: none;
+}
+
+.on .core {
+  background: var(--black);
+  box-shadow: none;
+}
+
+.on .blob {
+  width: 72px;
+  height: 72px;
+  margin: -36px 0 0 -36px;
+  background: color-mix(in srgb, var(--green) 28%, transparent);
+  border-color: var(--green);
+}
+
+.on .dot {
+  background: var(--purple);
+}
+
+.down .blob {
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.down .core {
+  background: var(--black);
+}
+
+@media (pointer: coarse) {
+  .root {
+    display: none;
+  }
+}

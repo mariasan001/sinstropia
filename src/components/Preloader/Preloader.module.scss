@@ -1,0 +1,75 @@
+.root {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding:
+    max(24px, env(safe-area-inset-top))
+    24px
+    max(24px, env(safe-area-inset-bottom));
+  background: var(--black);
+}
+
+.stage {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  gap: clamp(20px, 5vh, 36px);
+  width: min(100%, 420px);
+}
+
+.mark {
+  position: relative;
+  z-index: 4;
+  width: min(210px, 46vw);
+  height: min(270px, 58vw);
+  will-change: transform, opacity;
+}
+
+.half {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.halfLeft {
+  clip-path: inset(0 50% 0 0);
+}
+
+.halfRight {
+  clip-path: inset(0 0 0 50%);
+}
+
+.markImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.word {
+  position: relative;
+  z-index: 5;
+  display: grid;
+  justify-items: center;
+  width: 100%;
+}
+
+.wordmark {
+  width: min(280px, 78vw);
+  height: auto;
+  display: block;
+}
+
+@media (max-height: 620px) {
+  .mark {
+    width: min(150px, 38vw);
+    height: min(190px, 48vw);
+  }
+
+  .wordmark {
+    width: min(220px, 70vw);
+  }
+}
