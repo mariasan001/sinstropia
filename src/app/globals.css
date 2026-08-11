@@ -1,6 +1,7 @@
 :root {
   --purple: #7753F5;
   --black: #060709;
+  --void: #17181C;
   --gray: #D9D9D9;
   --green: #C1FF72;
   --white: #ffffff;
@@ -65,12 +66,22 @@ html.lenis body {
 }
 
 html.booting,
+html.booting body {
+  background: var(--void);
+}
+
+html.booting,
 html.booting body,
 html.work-open,
 html.work-open body,
 html.nav-open,
 html.nav-open body {
   overflow: hidden;
+}
+
+html.work-open,
+html.work-open body {
+  overscroll-behavior: none;
 }
 
 .app-booting {

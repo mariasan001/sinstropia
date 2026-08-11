@@ -1,8 +1,14 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
+import { useReducedMotion } from 'motion/react';
+import gsap from 'gsap';
+import { bindReveal } from '@/motion/reveal';
 import s from './Footer.module.scss';
 
 const links = [
   { label: 'Inicio', href: '#inicio' },
-  { label: 'Trabajo', href: '#projects' },
+  { label: 'Desarrollo', href: '#projects' },
   { label: 'Hacemos', href: '#services' },
   { label: 'Productos', href: '#productos' },
   { label: 'Socios', href: '#socios' },
@@ -11,8 +17,23 @@ const links = [
 ];
 
 export default function Footer() {
+  const reduce = useReducedMotion();
+  const root = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = root.current;
+    if (!el || reduce) return;
+    const ctx = gsap.context(() => {
+      bindReveal(el, el.querySelectorAll(`.${s.top}, .${s.bottom}`), {
+        start: 'top 92%',
+        end: 'bottom top',
+      });
+    }, el);
+    return () => ctx.revert();
+  }, [reduce]);
+
   return (
-    <footer className={s.wrap}>
+    <footer ref={root} className={s.wrap}>
       <div className={s.top}>
         <a href="#inicio" className={s.brand}>
           Sintropía

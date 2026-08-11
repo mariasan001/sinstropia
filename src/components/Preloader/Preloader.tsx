@@ -75,9 +75,9 @@ export default function Preloader({ onDone }: Props) {
     tl.to(w, { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power3.out' }, '-=0.15');
     tl.to({}, { duration: 0.45 });
 
-    tl.to([w, m], { autoAlpha: 0, duration: 0.35, ease: 'power2.in' }, '+=0.05');
-    tl.to(rootEl, { autoAlpha: 0, duration: 0.4, ease: 'power2.inOut' }, '-=0.15');
-    tl.set(rootEl, { pointerEvents: 'none' });
+    tl.to([w, m], { autoAlpha: 0, duration: 0.4, ease: 'power2.in' }, '+=0.05');
+    tl.add(finish);
+    tl.set(rootEl, { autoAlpha: 0, pointerEvents: 'none' });
 
     return () => {
       tl.kill();

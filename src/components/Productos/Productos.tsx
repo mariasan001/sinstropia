@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from 'motion/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { bindReveal } from '@/motion/reveal';
 import s from './Productos.module.scss';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -104,6 +105,7 @@ export default function Productos() {
       });
     };
 
+    const q = gsap.utils.selector(el);
     const ctx = gsap.context(() => {
       if (paint.current) {
         gsap.fromTo(
@@ -121,6 +123,8 @@ export default function Productos() {
           },
         );
       }
+
+      bindReveal(el, q(`.${s.chrome}, .${s.copy}`));
 
       if (!native) {
         const shift = () => rail.scrollWidth - el.clientWidth;

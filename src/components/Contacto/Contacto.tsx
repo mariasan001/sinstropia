@@ -4,6 +4,7 @@ import { useEffect, useRef, type FormEvent } from 'react';
 import { useReducedMotion } from 'motion/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { bindReveal } from '@/motion/reveal';
 import s from './Contacto.module.scss';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -38,14 +39,7 @@ export default function Contacto() {
         );
       }
 
-      gsap.from(q(`.${s.copy} > *, .${s.form}`), {
-        y: 24,
-        autoAlpha: 0,
-        stagger: 0.07,
-        duration: 0.75,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: el, start: 'top 64%' },
-      });
+      bindReveal(el, q(`.${s.copy} > *, .${s.form}`));
     }, el);
 
     return () => ctx.revert();

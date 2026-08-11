@@ -10,7 +10,7 @@
   position: absolute;
   inset: 0;
   z-index: 3;
-  background: var(--black);
+  background: var(--void);
   transform-origin: bottom center;
   pointer-events: none;
 }
@@ -145,7 +145,7 @@
   cursor: pointer;
   overflow: hidden;
   isolation: isolate;
-  background: var(--black);
+  background: var(--void);
   color: var(--white);
 }
 

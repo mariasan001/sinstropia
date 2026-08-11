@@ -7,9 +7,33 @@ import s from './Navbar.module.scss';
 
 type NavItem = { label: string; href: string; tag?: string };
 
+function Cta({ className, onClick }: { className?: string; onClick?: () => void }) {
+  return (
+    <a className={`${s.btn} ${className ?? ''} cursor-hover`} href="#contact" onClick={onClick}>
+      <span className={s.fill} aria-hidden />
+      <span className={s.label}>
+        <span>Cotizar</span>
+        <span>Empezar</span>
+      </span>
+      <span className={s.arrow} aria-hidden>
+        <i>
+          <svg viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </i>
+        <b>
+          <svg viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </b>
+      </span>
+    </a>
+  );
+}
+
 const nav: NavItem[] = [
   { label: 'Inicio', href: '#inicio' },
-  { label: 'Trabajo', href: '#projects' },
+  { label: 'Desarrollo', href: '#projects' },
   { label: 'Hacemos', href: '#services' },
   { label: 'Productos', href: '#productos' },
   { label: 'Socios', href: '#socios', tag: 'Nuevo' },
@@ -63,6 +87,33 @@ export default function Navbar() {
 
   const close = () => setOpen(false);
 
+  useEffect(() => {
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
+    if (coarse) return;
+    const btns = Array.from(document.querySelectorAll<HTMLElement>(`.${s.btn}`));
+    const onMove = (e: PointerEvent) => {
+      const btn = e.currentTarget as HTMLElement;
+      const box = btn.getBoundingClientRect();
+      btn.style.setProperty('--mx', `${((e.clientX - box.left) / box.width - 0.5) * 12}px`);
+      btn.style.setProperty('--my', `${((e.clientY - box.top) / box.height - 0.5) * 12}px`);
+    };
+    const onLeave = (e: PointerEvent) => {
+      const btn = e.currentTarget as HTMLElement;
+      btn.style.setProperty('--mx', '0px');
+      btn.style.setProperty('--my', '0px');
+    };
+    btns.forEach((btn) => {
+      btn.addEventListener('pointermove', onMove);
+      btn.addEventListener('pointerleave', onLeave);
+    });
+    return () => {
+      btns.forEach((btn) => {
+        btn.removeEventListener('pointermove', onMove);
+        btn.removeEventListener('pointerleave', onLeave);
+      });
+    };
+  }, [open, compact]);
+
   return (
     <header className={s.wrap}>
       <nav className={`${s.nav} ${compact && !open ? s.compact : ''} ${open ? s.navOpen : ''}`}>
@@ -108,9 +159,7 @@ export default function Navbar() {
               })}
             </ul>
 
-            <a href="#contact" className={s.cta}>
-              cotizar
-            </a>
+            <Cta className={s.cta} />
           </>
         )}
 
@@ -151,9 +200,7 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          <a href="#contact" className={s.sheetCta} onClick={close}>
-            Escribirnos
-          </a>
+          <Cta className={s.sheetCta} onClick={close} />
         </div>
       </div>
     </header>

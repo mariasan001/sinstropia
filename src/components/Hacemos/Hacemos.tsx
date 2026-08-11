@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useReducedMotion } from 'motion/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { bindReveal } from '@/motion/reveal';
 import s from './Hacemos.module.scss';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -76,14 +77,7 @@ export default function Hacemos() {
         );
       }
 
-      gsap.from(q(`.${s.copy} > *`), {
-        y: 24,
-        autoAlpha: 0,
-        stagger: 0.08,
-        duration: 0.75,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: el, start: 'top 64%' },
-      });
+      bindReveal(el, q(`.${s.copy} > *`));
     }, el);
 
     const coarse = window.matchMedia('(hover: none), (pointer: coarse)').matches;
