@@ -35,3 +35,13 @@ export const VENTURES_TITLE = 'Ventures — Convocatoria de socios';
 export const VENTURES_OG_TITLE = 'Sintropía Ventures — Convocatoria de socios';
 export const VENTURES_DESCRIPTION =
   'Escuchamos tu idea. Apostamos por ella. Sintropía Ventures: desarrollo, diseño, estrategia y mentoría a cambio de equity. Cupos por temporada.';
+
+export const NEURONA_TITLE = 'Neurona — Validador';
+export const NEURONA_OG_TITLE = 'Neurona — Validador que se renta';
+export const NEURONA_DESCRIPTION =
+  'Neurona valida texto, video o audio con las reglas que tú defines. Demo de prueba, renta mensual e instalación en tu operación.';
+
+export const COTIZADOR_TITLE = 'Cotizador — IA para tu negocio';
+export const COTIZADOR_OG_TITLE = 'Cotizador — Cotiza con IA, a tu medida';
+export const COTIZADOR_DESCRIPTION =
+  'Cotizador con IA para cualquier giro: conversación con el cliente, formatos, sitio y seguimiento de cotizaciones. Planes e implementación a tu operación.';

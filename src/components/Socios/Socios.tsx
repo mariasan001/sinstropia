@@ -139,10 +139,6 @@ export default function Socios() {
   return (
     <section ref={root} className={s.wrap} id="socios" aria-label="Socios">
       <div ref={paint} className={s.paint} aria-hidden />
-      <div className={s.atmosphere} aria-hidden>
-        <span className={s.ring} />
-        <span className={s.slash} />
-      </div>
       <p className={s.ghost} aria-hidden>
         Socios
       </p>

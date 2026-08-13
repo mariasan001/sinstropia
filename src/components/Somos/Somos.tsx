@@ -115,10 +115,6 @@ export default function Somos() {
   return (
     <section ref={root} className={s.wrap} id="somos" aria-label="Somos">
       <div ref={paint} className={s.paint} aria-hidden />
-      <div className={s.atmosphere} aria-hidden>
-        <span className={s.ring} />
-        <span className={s.slash} />
-      </div>
       <p className={s.ghost} aria-hidden>
         Somos
       </p>

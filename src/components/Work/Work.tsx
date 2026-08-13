@@ -1246,6 +1246,7 @@ export default function Work() {
   const progress = useRef(0);
   const savedY = useRef(0);
   const locked = useRef(false);
+  const storyReady = useRef(false);
   const lenis = useLenis();
   const [openId, setOpenId] = useState<string | null>(null);
 
@@ -1257,7 +1258,24 @@ export default function Work() {
   };
 
   const closeStory = () => {
-    setOpenId(null);
+    const box = stage.current;
+    if (!box || reduce) {
+      setOpenId(null);
+      return;
+    }
+    if (box.dataset.closing === '1') return;
+    box.dataset.closing = '1';
+    gsap.killTweensOf(box);
+    gsap.to(box, {
+      autoAlpha: 0,
+      y: 28,
+      duration: 0.48,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        box.dataset.closing = '0';
+        setOpenId(null);
+      },
+    });
   };
   const [focusId, setFocusId] = useState(pieces[0].id);
   const [beat, setBeat] = useState(0);
@@ -1344,30 +1362,85 @@ export default function Work() {
 
     const box = stage.current;
     const track = rail.current;
+    const chrome = box.querySelector(`.${s.chrome}`);
     const last = open.chapters.length - 1;
     const mobile = window.matchMedia('(max-width: 860px)').matches;
     const native = Boolean(reduce) || mobile;
     progress.current = 0;
+    box.dataset.closing = '0';
 
     const size = () => {
       box.style.setProperty('--sw', `${box.clientWidth}px`);
     };
     size();
 
-    const apply = (next: number) => {
-      progress.current = Math.min(1, Math.max(0, next));
-      const i = Math.round(progress.current * last);
-      setBeat((cur) => (cur === i ? cur : i));
-      ink.current?.style.setProperty('--p', `${progress.current}`);
-      gsap.set(track, { x: native ? 0 : -progress.current * last * box.clientWidth });
+    const paintPanels = (p: number) => {
       Array.from(box.querySelectorAll<HTMLElement>(`.${s.panel}`)).forEach((panel, idx) => {
-        const d = idx - progress.current * last;
+        const d = idx - p * last;
         panel.style.setProperty('--d', `${d}`);
         panel.style.setProperty('--abs', `${Math.abs(d)}`);
       });
     };
 
-    apply(0);
+    const apply = (next: number, animate = true) => {
+      const p = Math.min(1, Math.max(0, next));
+      progress.current = p;
+      const i = Math.round(p * last);
+      setBeat((cur) => (cur === i ? cur : i));
+      ink.current?.style.setProperty('--p', `${p}`);
+      paintPanels(p);
+      if (native) return;
+      gsap.killTweensOf(track);
+      if (animate && !reduce) {
+        gsap.to(track, {
+          x: -p * last * box.clientWidth,
+          duration: 0.7,
+          ease: 'power3.out',
+          overwrite: true,
+        });
+      } else {
+        gsap.set(track, { x: -p * last * box.clientWidth });
+      }
+    };
+
+    apply(0, false);
+    storyReady.current = false;
+
+    // Entrada del overlay
+    if (!reduce) {
+      gsap.fromTo(
+        box,
+        { autoAlpha: 0, y: 36 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.72,
+          ease: 'power3.out',
+          onComplete: () => {
+            storyReady.current = true;
+          },
+        },
+      );
+      if (chrome) {
+        gsap.fromTo(
+          chrome,
+          { y: -18, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.55, delay: 0.12, ease: 'power2.out' },
+        );
+      }
+      const first = box.querySelectorAll(`.${s.panel}`)[0];
+      if (first) {
+        const bits = first.querySelectorAll(`.${s.panelCopy}, .${s.object}, .${s.paper}`);
+        gsap.fromTo(
+          bits,
+          { y: 28, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.08, delay: 0.18, ease: 'power3.out' },
+        );
+      }
+    } else {
+      gsap.set(box, { autoAlpha: 1, y: 0 });
+      storyReady.current = true;
+    }
 
     if (native) {
       const scroller = port.current;
@@ -1390,21 +1463,39 @@ export default function Work() {
       window.addEventListener('keydown', onKey);
       window.addEventListener('resize', size);
       return () => {
+        storyReady.current = false;
         scroller?.removeEventListener('scroll', onScroll);
         window.removeEventListener('keydown', onKey);
         window.removeEventListener('resize', size);
         document.documentElement.classList.remove('work-open');
+        gsap.killTweensOf(box);
+        gsap.killTweensOf(track);
       };
     }
 
+    let snapTimer = 0;
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      apply(progress.current + e.deltaY / 1400);
+      // Menos sensible: hace falta más scroll para cruzar capítulos
+      apply(progress.current + e.deltaY / 3200, true);
+      window.clearTimeout(snapTimer);
+      snapTimer = window.setTimeout(() => {
+        const i = Math.round(progress.current * last);
+        apply(last === 0 ? 0 : i / last, true);
+      }, 140);
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeStory();
-      if (e.key === 'ArrowRight') apply(progress.current + 1 / last);
-      if (e.key === 'ArrowLeft') apply(progress.current - 1 / last);
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const i = Math.min(last, Math.round(progress.current * last) + 1);
+        apply(last === 0 ? 0 : i / last, true);
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const i = Math.max(0, Math.round(progress.current * last) - 1);
+        apply(last === 0 ? 0 : i / last, true);
+      }
     };
 
     box.addEventListener('wheel', onWheel, { passive: false });
@@ -1412,12 +1503,29 @@ export default function Work() {
     window.addEventListener('resize', size);
 
     return () => {
+      storyReady.current = false;
+      window.clearTimeout(snapTimer);
       box.removeEventListener('wheel', onWheel);
       window.removeEventListener('keydown', onKey);
       window.removeEventListener('resize', size);
       document.documentElement.classList.remove('work-open');
+      gsap.killTweensOf(box);
+      gsap.killTweensOf(track);
     };
-  }, [open, reduce]);
+  }, [open, reduce, lenis]);
+
+  // Reveal suave al cambiar de capítulo (tabs / snap)
+  useEffect(() => {
+    if (!open || !stage.current || reduce || !storyReady.current) return;
+    const panel = stage.current.querySelectorAll(`.${s.panel}`)[beat] as HTMLElement | undefined;
+    if (!panel) return;
+    const bits = panel.querySelectorAll(`.${s.panelCopy} > *, .${s.object}, .${s.paper}`);
+    gsap.fromTo(
+      bits,
+      { y: 18, autoAlpha: 0.35 },
+      { y: 0, autoAlpha: 1, duration: 0.55, stagger: 0.05, ease: 'power2.out', overwrite: 'auto' },
+    );
+  }, [beat, open, reduce]);
 
   const goBeat = (i: number) => {
     if (!open || !stage.current || !rail.current) return;
@@ -1426,16 +1534,21 @@ export default function Work() {
     progress.current = p;
     ink.current?.style.setProperty('--p', `${p}`);
     setBeat(i);
+    Array.from(stage.current.querySelectorAll<HTMLElement>(`.${s.panel}`)).forEach((panel, idx) => {
+      const d = idx - i;
+      panel.style.setProperty('--d', `${d}`);
+      panel.style.setProperty('--abs', `${Math.abs(d)}`);
+    });
     if (window.matchMedia('(max-width: 860px)').matches) {
       const panel = rail.current.children[i] as HTMLElement | undefined;
       panel?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
       return;
     }
-    gsap.to(rail.current, { x: -p * last * stage.current.clientWidth, duration: 0.7, ease: 'power3.out' });
-    Array.from(stage.current.querySelectorAll<HTMLElement>(`.${s.panel}`)).forEach((panel, idx) => {
-      const d = idx - i;
-      panel.style.setProperty('--d', `${d}`);
-      panel.style.setProperty('--abs', `${Math.abs(d)}`);
+    gsap.to(rail.current, {
+      x: -p * last * stage.current.clientWidth,
+      duration: 0.85,
+      ease: 'power3.out',
+      overwrite: true,
     });
   };
 

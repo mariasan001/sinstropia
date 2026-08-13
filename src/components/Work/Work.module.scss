@@ -359,6 +359,7 @@
   overflow: hidden;
   background: var(--purple);
   color: var(--white);
+  will-change: transform, opacity;
 }
 
 .chrome {
@@ -472,6 +473,7 @@
     72px;
   transform: scale(calc(1 - var(--abs) * 0.035));
   opacity: calc(1 - var(--abs) * 0.16);
+  transition: opacity 0.55s ease, transform 0.55s ease;
 }
 
 .panel[data-rich='1'] {
@@ -572,6 +574,7 @@
   opacity: calc(1 - min(var(--abs), 1) * 0.45);
   transform: translate3d(calc(var(--d) * 16px), 0, 0);
   isolation: isolate;
+  transition: opacity 0.55s ease, transform 0.55s ease;
 }
 
 /* —— 01 Ask: Excel chaos —— */

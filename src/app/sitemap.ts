@@ -17,5 +17,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    {
+      url: `${SITE_URL}/neurona`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/cotizador`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
   ];
 }

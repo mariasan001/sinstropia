@@ -15,33 +15,6 @@
   pointer-events: none;
 }
 
-.atmosphere {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.ring {
-  position: absolute;
-  right: -10%;
-  top: 12%;
-  width: min(48vw, 480px);
-  height: min(48vw, 480px);
-  border-radius: 50%;
-  border: 1.5px solid rgba(193, 255, 114, 0.22);
-}
-
-.slash {
-  position: absolute;
-  left: -8%;
-  bottom: 8%;
-  width: min(36vw, 360px);
-  height: min(36vw, 360px);
-  border-radius: 50%;
-  border: 1.5px solid rgba(119, 83, 245, 0.35);
-}
-
 .ghost {
   position: absolute;
   left: 0;
@@ -348,20 +321,6 @@
   .arrow {
     width: 14px;
     height: 14px;
-  }
-
-  .ring {
-    right: -30%;
-    top: 4%;
-    width: 70vw;
-    height: 70vw;
-  }
-
-  .slash {
-    left: -24%;
-    bottom: 2%;
-    width: 55vw;
-    height: 55vw;
   }
 
   .ghost {

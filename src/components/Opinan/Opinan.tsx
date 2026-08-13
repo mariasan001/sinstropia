@@ -92,8 +92,6 @@ export default function Opinan() {
   const root = useRef<HTMLElement>(null);
   const paint = useRef<HTMLDivElement>(null);
   const copy = useRef<HTMLElement>(null);
-  const ghost = useRef<HTMLParagraphElement>(null);
-  const wait = useRef<HTMLSpanElement>(null);
   const busy = useRef(false);
   const index = useRef(0);
   const primed = useRef(false);
@@ -121,7 +119,7 @@ export default function Opinan() {
           },
         );
       }
-      bindReveal(el, el.querySelectorAll(`.${s.head}, .${s.bar}`), {
+      bindReveal(el, el.querySelectorAll(`.${s.head}`), {
         start: 'top 80%',
         end: 'bottom 14%',
       });
@@ -155,21 +153,6 @@ export default function Opinan() {
         onLeave: () => playLeave('up'),
         onLeaveBack: () => playLeave('down'),
       });
-
-      el.querySelectorAll(`.${s.name}`).forEach((btn, i) => {
-        gsap.set(btn, { y: 16, autoAlpha: 0 });
-        ScrollTrigger.create({
-          trigger: el,
-          start: 'top 78%',
-          end: 'bottom 14%',
-          onEnter: () =>
-            gsap.to(btn, { y: 0, autoAlpha: 1, duration: 0.5, delay: 0.08 * i, ease: 'power3.out', overwrite: 'auto' }),
-          onEnterBack: () =>
-            gsap.to(btn, { y: 0, autoAlpha: 1, duration: 0.45, delay: 0.05 * i, ease: 'power3.out', overwrite: 'auto' }),
-          onLeave: () => gsap.to(btn, { y: -12, autoAlpha: 0, duration: 0.28, ease: 'power2.in', overwrite: 'auto' }),
-          onLeaveBack: () => gsap.to(btn, { y: 16, autoAlpha: 0, duration: 0.28, ease: 'power2.in', overwrite: 'auto' }),
-        });
-      });
     }, el);
 
     return () => ctx.revert();
@@ -190,7 +173,6 @@ export default function Opinan() {
     }
 
     const body = copy.current;
-    const name = ghost.current;
     if (!body) {
       swap();
       return;
@@ -203,13 +185,10 @@ export default function Opinan() {
       },
     });
     tl.to(body, { y: 18, autoAlpha: 0, duration: 0.26, ease: 'power2.in' }, 0);
-    if (name) tl.to(name, { y: 12, autoAlpha: 0, duration: 0.26, ease: 'power2.in' }, 0);
     tl.add(swap);
     tl.to({}, { duration: 0.04 });
     tl.set(body, { y: -14 });
-    if (name) tl.set(name, { y: 10 });
     tl.to(body, { y: 0, autoAlpha: 1, duration: 0.42, ease: 'power3.out' });
-    if (name) tl.to(name, { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' }, '<');
   };
 
   useEffect(() => {
@@ -225,23 +204,6 @@ export default function Opinan() {
       { yPercent: 115 },
       { yPercent: 0, duration: 0.58, stagger: 0.05, ease: 'power3.out', overwrite: 'auto' },
     );
-  }, [active, reduce]);
-
-  useEffect(() => {
-    const bar = wait.current;
-    if (!bar) return;
-    gsap.killTweensOf(bar);
-    gsap.set(bar, { scaleX: 0 });
-    if (reduce) return;
-    gsap.to(bar, {
-      scaleX: 1,
-      duration: 6.4,
-      ease: 'none',
-      onComplete: () => {
-        if (busy.current) return;
-        show(index.current + 1);
-      },
-    });
   }, [active, reduce]);
 
   useEffect(() => {
@@ -273,18 +235,14 @@ export default function Opinan() {
   }, []);
 
   return (
-    <section ref={root} className={s.wrap} id="opinan" aria-label="Opinan">
+    <section ref={root} className={s.wrap} id="opinan" aria-label="Cómo lo cuentan">
       <div ref={paint} className={s.paint} aria-hidden />
-      <p ref={ghost} className={s.ghost} aria-hidden>
-        {note.name}
-      </p>
 
       <div className={s.stage}>
         <header className={s.head}>
+          <p className={s.index}>03</p>
           <div className={s.headCopy}>
-            <p className={s.index}>03</p>
-            <h2 className={s.title}>Opinan</h2>
-            <p className={s.kicker}>Cómo lo cuentan</p>
+            <h2 className={s.title}>Cómo lo cuentan</h2>
           </div>
           <div className={s.step}>
             <button type="button" className={`${s.dir} cursor-hover`} onClick={() => show(active - 1)} aria-label="Anterior">
@@ -331,26 +289,6 @@ export default function Opinan() {
             </div>
           </footer>
         </article>
-
-        <div className={s.bar}>
-          <div className={s.names} role="tablist" aria-label="Clientes">
-            {notes.map((n, i) => (
-              <button
-                key={n.id}
-                type="button"
-                role="tab"
-                aria-selected={active === i}
-                className={`${s.name} ${active === i ? s.on : ''} cursor-hover`}
-                onClick={() => show(i)}
-              >
-                {n.name}
-              </button>
-            ))}
-          </div>
-          <span className={s.wait} aria-hidden>
-            <i ref={wait} />
-          </span>
-        </div>
       </div>
     </section>
   );
