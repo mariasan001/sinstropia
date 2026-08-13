@@ -21,6 +21,10 @@ function list(targets: gsap.TweenTarget): Element[] {
   raw.forEach((el) => {
     if (!(el instanceof HTMLElement)) return;
     if (/^H[1-4]$/.test(el.tagName)) {
+      if (el.dataset.nosplit === '1') {
+        out.push(el);
+        return;
+      }
       if (el.querySelector('[data-word]')) {
         out.push(...Array.from(el.querySelectorAll('[data-word]')));
         return;
@@ -40,10 +44,36 @@ function list(targets: gsap.TweenTarget): Element[] {
 
 function splitHeading(h: HTMLElement) {
   if (h.dataset.split === '1') return;
-  const lines = (h.textContent || '')
-    .split(/\n+/)
-    .map((line) => line.trim())
-    .filter(Boolean);
+
+  // <br> does not appear in textContent — collect lines from nodes.
+  const lines: string[] = [];
+  let buf = '';
+  const flush = () => {
+    const t = buf.replace(/\s+/g, ' ').trim();
+    if (t) lines.push(t);
+    buf = '';
+  };
+
+  h.childNodes.forEach((node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      buf += node.textContent || '';
+      return;
+    }
+    if (node instanceof HTMLElement) {
+      if (node.tagName === 'BR') {
+        flush();
+        return;
+      }
+      buf += node.textContent || '';
+    }
+  });
+  flush();
+
+  if (!lines.length) {
+    const fallback = (h.textContent || '').replace(/\s+/g, ' ').trim();
+    if (fallback) lines.push(fallback);
+  }
+
   h.textContent = '';
   h.dataset.split = '1';
   lines.forEach((line) => {
@@ -51,7 +81,9 @@ function splitHeading(h: HTMLElement) {
     row.dataset.line = '1';
     row.style.display = 'block';
     row.style.overflow = 'hidden';
-    row.style.padding = '0.04em 0';
+    // Horizontal pad so negative letter-spacing doesn't clip the first glyph.
+    row.style.padding = '0.05em 0.12em';
+    row.style.margin = '0 -0.12em';
     line.split(/\s+/).forEach((word, i) => {
       const w = document.createElement('span');
       w.dataset.word = '1';

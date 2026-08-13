@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useReducedMotion } from 'motion/react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import Image from 'next/image';
 import gsap from 'gsap';
 import s from './Preloader.module.scss';
@@ -76,7 +76,6 @@ export default function Preloader({ onDone }: Props) {
     tl.to({}, { duration: 0.45 });
 
     tl.to([w, m], { autoAlpha: 0, duration: 0.4, ease: 'power2.in' }, '+=0.05');
-    tl.add(finish);
     tl.set(rootEl, { autoAlpha: 0, pointerEvents: 'none' });
 
     return () => {
@@ -89,31 +88,13 @@ export default function Preloader({ onDone }: Props) {
     <div ref={root} className={s.root} aria-busy="true" aria-label="Cargando Sintropía">
       <div className={s.stage}>
         <div ref={mark} className={s.mark}>
-          <div ref={left} className={`${s.half} ${s.halfLeft}`}>
-            <Image
-              src="/img/brand/mark-white.png"
-              alt=""
-              width={240}
-              height={300}
-              priority
-              className={s.markImg}
-            />
-          </div>
-          <div ref={right} className={`${s.half} ${s.halfRight}`}>
-            <Image
-              src="/img/brand/mark-white.png"
-              alt=""
-              width={240}
-              height={300}
-              priority
-              className={s.markImg}
-            />
-          </div>
+          <div ref={left} className={`${s.half} ${s.halfLeft}`} aria-hidden />
+          <div ref={right} className={`${s.half} ${s.halfRight}`} aria-hidden />
         </div>
 
         <div ref={word} className={s.word}>
           <Image
-            src="/img/brand/wordmark-white.png"
+            src="/img/brand/wordmark-white.webp"
             alt="Sintropía"
             width={320}
             height={54}

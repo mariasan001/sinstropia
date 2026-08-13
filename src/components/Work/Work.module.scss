@@ -4,7 +4,7 @@
   background: var(--void);
   color: var(--white);
   padding: 100px 0 100px;
-  overflow: visible;
+  overflow-x: clip;
 }
 
 .paint {

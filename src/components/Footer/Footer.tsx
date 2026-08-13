@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useReducedMotion } from 'motion/react';
+import { usePathname } from 'next/navigation';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import gsap from 'gsap';
 import { bindReveal } from '@/motion/reveal';
 import s from './Footer.module.scss';
@@ -18,6 +19,9 @@ const links = [
 
 export default function Footer() {
   const reduce = useReducedMotion();
+  const pathname = usePathname();
+  const home = pathname === '/';
+  const to = (href: string) => (home || !href.startsWith('#') ? href : `/${href}`);
   const root = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -35,14 +39,14 @@ export default function Footer() {
   return (
     <footer ref={root} className={s.wrap}>
       <div className={s.top}>
-        <a href="#inicio" className={s.brand}>
+        <a href={to('#inicio')} className={s.brand}>
           Sintropía
         </a>
         <nav aria-label="Pie">
           <ul className={s.links}>
             {links.map((item) => (
               <li key={item.href}>
-                <a href={item.href}>{item.label}</a>
+                <a href={to(item.href)}>{item.label}</a>
               </li>
             ))}
           </ul>

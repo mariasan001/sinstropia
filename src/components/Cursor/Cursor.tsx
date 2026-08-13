@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useReducedMotion } from 'motion/react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import s from './Cursor.module.scss';
 
 const HOVER = 'a, button, [role="button"], label, summary, .cursor-hover';
@@ -137,7 +137,7 @@ export default function Cursor() {
       rippleEl.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
 
       sample += 1;
-      if (sample % 4 === 0 && visible) applyTone(toneAt(pos.x, pos.y));
+      if (sample % 10 === 0 && visible && speed < 0.35) applyTone(toneAt(pos.x, pos.y));
 
       raf = requestAnimationFrame(tick);
     };

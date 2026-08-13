@@ -3,13 +3,22 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { usePathname } from 'next/navigation';
 import s from './Navbar.module.scss';
 
 type NavItem = { label: string; href: string; tag?: string };
 
-function Cta({ className, onClick }: { className?: string; onClick?: () => void }) {
+function Cta({
+  className,
+  href = '#cotizar',
+  onClick,
+}: {
+  className?: string;
+  href?: string;
+  onClick?: () => void;
+}) {
   return (
-    <a className={`${s.btn} ${className ?? ''} cursor-hover`} href="#contact" onClick={onClick}>
+    <a className={`${s.btn} ${className ?? ''} cursor-hover`} href={href} onClick={onClick}>
       <span className={s.fill} aria-hidden />
       <span className={s.label}>
         <span>Cotizar</span>
@@ -42,12 +51,15 @@ const nav: NavItem[] = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const home = pathname === '/';
+  const to = (href: string) => (home || !href.startsWith('#') ? href : `/${href}`);
   const [compact, setCompact] = useState(false);
   const [open, setOpen] = useState(false);
   const lastY = useRef(0);
   const ticking = useRef(false);
 
-  const activeHref = '#inicio';
+  const activeHref = home ? '#inicio' : '';
 
   useEffect(() => {
     lastY.current = window.scrollY;
@@ -121,10 +133,9 @@ export default function Navbar() {
           {compact && !open ? (
             <span className={s.logoIcon}>
               <Image
-                src="/img/fav-icon.png"
+                src="/img/fav-icon.webp"
                 alt="Sintropía"
                 fill
-                priority
                 className={s.markImg}
                 sizes="14px"
               />
@@ -132,12 +143,12 @@ export default function Navbar() {
           ) : (
             <span className={s.logoText}>
               <Image
-                src="/img/logo_1.png"
-                alt="SintroPIA"
-                width={100}
-                height={1}
-                priority
+                src="/img/logo_1.webp"
+                alt="Sintropía"
+                width={120}
+                height={28}
                 className={s.wordmarkImg}
+                sizes="120px"
               />
             </span>
           )}
@@ -147,10 +158,11 @@ export default function Navbar() {
           <>
             <ul className={s.links}>
               {nav.map((item) => {
+                const href = to(item.href);
                 const isActive = item.href === activeHref;
                 return (
                   <li key={item.href} className={s.linkItem}>
-                    <a href={item.href} className={`${s.link} ${isActive ? s.active : ''}`}>
+                    <a href={href} className={`${s.link} ${isActive ? s.active : ''}`}>
                       {item.label}
                       {item.tag ? <em className={s.tag}>{item.tag}</em> : null}
                     </a>
@@ -159,7 +171,7 @@ export default function Navbar() {
               })}
             </ul>
 
-            <Cta className={s.cta} />
+            <Cta className={s.cta} href={to('#cotizar')} />
           </>
         )}
 
@@ -190,7 +202,7 @@ export default function Navbar() {
             {nav.map((item, i) => (
               <li key={item.href} style={{ '--i': i } as CSSProperties}>
                 <a
-                  href={item.href}
+                  href={to(item.href)}
                   className={item.href === activeHref ? s.sheetActive : ''}
                   onClick={close}
                 >
@@ -200,7 +212,7 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          <Cta className={s.sheetCta} onClick={close} />
+          <Cta className={s.sheetCta} href={to('#cotizar')} onClick={close} />
         </div>
       </div>
     </header>

@@ -1,18 +1,25 @@
 // src/config/fonts.ts
-import { Montserrat, Raleway } from 'next/font/google';
+import { Caveat, Montserrat, Raleway } from 'next/font/google';
 
-export const raleway = Raleway({
+const raleway = Raleway({
   subsets: ['latin'],
   variable: '--font-display',
-  weight: ['400', '500', '600', '700', '800', '900'],
+  weight: ['600', '700', '800'],
   display: 'swap',
 });
 
-export const montserrat = Montserrat({
+const montserrat = Montserrat({
   subsets: ['latin'],
   variable: '--font-body',
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  weight: ['400', '600', '700', '800'],
   display: 'swap',
 });
 
-export const fontVars = `${raleway.variable} ${montserrat.variable}`;
+const caveat = Caveat({
+  subsets: ['latin'],
+  variable: '--font-hand',
+  weight: ['500'],
+  display: 'swap',
+});
+
+export const fontVars = `${raleway.variable} ${montserrat.variable} ${caveat.variable}`;

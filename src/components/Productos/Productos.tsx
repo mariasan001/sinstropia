@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useReducedMotion } from 'motion/react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { bindReveal } from '@/motion/reveal';
+import { useLenis } from 'lenis/react';
+import { hide, playIn } from '@/motion/reveal';
 import s from './Productos.module.scss';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,42 +13,45 @@ gsap.registerPlugin(ScrollTrigger);
 const products = [
   {
     id: 'neurona',
-    kind: 'Primer producto',
-    title: 'Neurona Digital',
+    tab: 'Neurona',
+    kind: 'Validador · Neurona Digital',
+    title: 'Neurona',
     colossus: 'Neurona',
     text: [
-      'Es una capa. Lee lo que ya está: texto escrito, voz y video. No lo adorna. Lo reconoce.',
-      'Su cualidad no es verse moderna. Es dejar constancia: que eso se dijo, se escribió o se grabó, y que se puede validar. Validez digital.',
+      'Se instala para validar información: redacción, lenguaje de un texto o los criterios que un video tiene que cumplir. Tú los defines.',
+      'Neurona revisa cada archivo contra esos criterios y te muestra el resultado: si cumple, queda. Si no, se ve en claro.',
     ],
   },
   {
     id: 'ligas',
-    kind: 'App · sistema móvil',
-    title: 'Ligas',
-    colossus: 'Ligas',
+    tab: 'Once',
+    kind: 'App · ligas deportivas',
+    title: 'Once',
+    colossus: 'Once',
     text: [
-      'Una aplicación de fútbol para que las zonas registren sus ligas y las corran desde el teléfono.',
-      'Resultados, jornadas, jugadores: lo que pasa en la cancha, a la vista. Un sistema para operar el torneo, no para presumirlo.',
+      'Una app para seguir ligas. Registras la tuya —femenil, varonil o la que sea—; no está limitada a un deporte.',
+      'Tabla de posiciones, próximos partidos, cómo quedó el juego, noticias, ficha del jugador y estadísticas. Todo el seguimiento, en el teléfono.',
     ],
   },
   {
     id: 'cotizador',
-    kind: 'Producto',
+    tab: 'Cotizador',
+    kind: 'IA · se adapta a tu negocio',
     title: 'Cotizador',
     colossus: 'Cotiza',
     text: [
-      'Un cotizador que se renta. Armas las reglas de tu negocio: qué se cobra, cómo se arma el precio.',
-      'El cliente pide. Sale un número. Sin perseguir cotizaciones en chats ni rehacer la misma cuenta cada vez.',
+      'Se integra una vez a tu negocio, sin importar el giro. Con inteligencia artificial, aprende cómo cotizas tú: qué concepto pesa más, cómo ajustas, cómo entregas. No es un formato genérico con campos de más.',
+      'De ahí el usuario genera sus cotizaciones. Las invoca como reporte, documento, empaque o seguro: el modo que necesita, no el que le tocó.',
     ],
   },
-];
+] as const;
 
 function Btn() {
   return (
     <a className={`${s.btn} cursor-hover`} href="#contact">
       <span className={s.fill} aria-hidden />
       <span className={s.label}>
-        <span>Rentar</span>
+        <span>Comprar</span>
         <span>Escribirnos</span>
       </span>
       <span className={s.arrow} aria-hidden>
@@ -66,8 +70,170 @@ function Btn() {
   );
 }
 
+function Neurona() {
+  return (
+    <div className={`${s.object} ${s.neurona}`} aria-hidden>
+      <div className={s.pad}>
+        <div className={s.padFace}>
+          <div className={s.padStatus}>
+            <b>9:41</b>
+            <i />
+            <em />
+          </div>
+          <div className={s.nApp}>
+            <header>
+              <small>Neurona</small>
+              <em>configurado</em>
+            </header>
+            <div className={s.shots}>
+              <span data-on="1" className={s.wave}>
+                <i />
+                <i />
+                <i />
+                <i />
+                <i />
+              </span>
+              <span data-on="1" className={s.clip} />
+              <span>Aa</span>
+            </div>
+            <p className={s.shotNote}>Criterios · resultado</p>
+            <ul>
+              <li data-ok="1">
+                <div>
+                  <b>Texto</b>
+                  <p>redacción · lenguaje</p>
+                </div>
+                <span>cumple</span>
+              </li>
+              <li data-ok="1">
+                <div>
+                  <b>Video</b>
+                  <p>criterios definidos</p>
+                </div>
+                <span>cumple</span>
+              </li>
+              <li data-ok="0">
+                <div>
+                  <b>Audio</b>
+                  <p>calidad · claridad</p>
+                </div>
+                <span>revisar</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Ligas() {
+  return (
+    <div className={`${s.object} ${s.ligas}`} aria-hidden>
+      <div className={s.handset}>
+        <div className={s.screen}>
+          <div className={s.status}>
+            <b>9:41</b>
+            <i />
+            <em />
+          </div>
+          <header>
+            <span>ZN</span>
+            <div>
+              <small>Inicio</small>
+              <b>Zona norte</b>
+            </div>
+            <em>Varonil</em>
+          </header>
+          <div className={s.last}>
+            <small>último partido</small>
+            <div>
+              <b>Norte</b>
+              <strong>2–1</strong>
+              <b>Sur</b>
+            </div>
+            <p>Cómo quedó · jornada 14</p>
+          </div>
+          <div className={s.next}>
+            <small>próximo</small>
+            <b>Norte vs Centro</b>
+            <p>domingo 18:00</p>
+          </div>
+          <ol>
+            <li>
+              <em>1</em>
+              Norte
+              <span>21</span>
+            </li>
+            <li>
+              <em>2</em>
+              Sur
+              <span>18</span>
+            </li>
+            <li>
+              <em>3</em>
+              Centro
+              <span>14</span>
+            </li>
+          </ol>
+          <div className={s.news}>
+            <small>noticias</small>
+            <p>Rosa H. encabeza goleo de la femenil</p>
+          </div>
+          <nav>
+            <i>Inicio</i>
+            <i>Tabla</i>
+            <i>Jugador</i>
+          </nav>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Cotiza({ quote }: { quote: React.RefObject<HTMLSpanElement | null> }) {
+  return (
+    <div className={`${s.object} ${s.cotiza}`} aria-hidden>
+      <div className={s.engine}>
+        <header>
+          <small>Cotizador</small>
+          <em>integrado</em>
+        </header>
+        <p className={s.once}>Una vez a tu negocio. Luego se invoca.</p>
+        <ul className={s.modes}>
+          <li data-on="1">Documento</li>
+          <li>Reporte</li>
+          <li>Empaque</li>
+          <li>Seguro</li>
+        </ul>
+        <div className={s.doc}>
+          <small>cotización · documento</small>
+          <ul>
+            <li>
+              <span>Concepto</span>
+              <b>$8,400</b>
+            </li>
+            <li>
+              <span>Ajuste</span>
+              <b>$4,200</b>
+            </li>
+            <li>
+              <span>Entrega</span>
+              <b>$5,820</b>
+            </li>
+          </ul>
+          <p className={s.total}>
+            $<span ref={quote}>0</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Productos() {
   const reduce = useReducedMotion();
+  const lenis = useLenis();
   const root = useRef<HTMLElement>(null);
   const paint = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
@@ -82,28 +248,47 @@ export default function Productos() {
     if (!el || !rail) return;
 
     const coarse = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-    const native = Boolean(reduce) || coarse || window.matchMedia('(max-width: 860px)').matches;
     const panels = Array.from(el.querySelectorAll<HTMLElement>(`.${s.panel}`));
+
     const size = () => {
-      el.style.setProperty('--sw', `${el.clientWidth}px`);
+      // Prefer viewport width: pin can make el.clientWidth collapse/wrong.
+      const w = Math.max(1, Math.round(window.innerWidth));
+      el.style.setProperty('--sw', `${w}px`);
+      return w;
     };
-    size();
-    window.addEventListener('resize', size);
 
     const apply = (progress: number) => {
       const last = products.length - 1;
-      const i = Math.round(progress * last);
+      const clamped = Math.min(1, Math.max(0, progress));
+      const i = Math.round(clamped * last);
       setActive((cur) => (cur === i ? cur : i));
-      ink.current?.style.setProperty('--p', `${progress}`);
+      ink.current?.style.setProperty('--p', `${clamped}`);
       if (quote.current) {
-        quote.current.textContent = Math.round(progress * 18420).toLocaleString('es-MX');
+        quote.current.textContent = Math.round(8400 + clamped * 10020).toLocaleString('es-MX');
       }
       panels.forEach((panel, idx) => {
-        const d = idx - progress * last;
+        const d = idx - clamped * last;
+        const abs = Math.abs(d);
         panel.style.setProperty('--d', `${d}`);
-        panel.style.setProperty('--abs', `${Math.abs(d)}`);
+        panel.style.setProperty('--abs', `${abs}`);
+        panel.toggleAttribute('data-active', idx === i);
+        panel.setAttribute('aria-hidden', idx === i ? 'false' : 'true');
       });
     };
+
+    size();
+    let resizeTimer = 0;
+    const onResize = () => {
+      size();
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        ScrollTrigger.refresh();
+        const st = trigger.current;
+        if (st) apply(st.progress);
+      }, 120);
+    };
+    window.addEventListener('resize', onResize);
+    window.visualViewport?.addEventListener('resize', onResize);
 
     const q = gsap.utils.selector(el);
     const ctx = gsap.context(() => {
@@ -124,47 +309,84 @@ export default function Productos() {
         );
       }
 
-      bindReveal(el, q(`.${s.chrome}, .${s.copy}`));
+      if (!reduce) {
+        const targets = q(`.${s.chrome}, .${s.copy}`);
+        hide(targets);
+        const reveal = () => playIn(targets);
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 82%',
+          onEnter: reveal,
+          onEnterBack: reveal,
+        });
+        if (el.getBoundingClientRect().top < window.innerHeight * 0.9) reveal();
+      }
 
-      if (!native) {
-        const shift = () => rail.scrollWidth - el.clientWidth;
+      if (!reduce) {
+        const shift = () => {
+          size();
+          return Math.max(rail.scrollWidth - window.innerWidth, 0);
+        };
+
         const tween = gsap.to(rail, {
           x: () => -shift(),
           ease: 'none',
           scrollTrigger: {
             trigger: el,
             start: 'top top',
-            end: () => `+=${shift() * 1.35}`,
+            end: () => `+=${Math.max(shift() * 1.45, window.innerHeight * 2.2)}`,
             pin: true,
             scrub: 0.8,
             anticipatePin: 1,
             invalidateOnRefresh: true,
+            fastScrollEnd: true,
+            preventOverlaps: true,
+            snap: {
+              snapTo: 1 / (products.length - 1),
+              duration: { min: 0.12, max: 0.35 },
+              ease: 'power1.inOut',
+              delay: 0.02,
+            },
+            onRefreshInit: () => {
+              size();
+              gsap.set(rail, { x: 0 });
+            },
             onRefresh: (self) => {
+              size();
               const spacer = self.pin?.parentElement;
               if (spacer) {
                 spacer.style.width = '100%';
                 spacer.style.maxWidth = '100%';
                 spacer.style.overflow = 'hidden';
               }
+              if (self.pin) {
+                (self.pin as HTMLElement).style.width = '100%';
+                (self.pin as HTMLElement).style.maxWidth = '100%';
+                (self.pin as HTMLElement).style.left = '0';
+              }
+              apply(self.progress);
             },
             onUpdate: (self) => apply(self.progress),
+            onEnter: (self) => {
+              size();
+              apply(self.progress);
+            },
+            onEnterBack: (self) => {
+              size();
+              apply(self.progress);
+            },
           },
         });
         trigger.current = tween.scrollTrigger ?? null;
         apply(0);
+        requestAnimationFrame(() => {
+          size();
+          ScrollTrigger.refresh();
+        });
+      } else {
+        apply(0);
       }
     }, el);
-
-    let onRailScroll: (() => void) | undefined;
-    if (native) {
-      el.classList.add(s.swipe);
-      onRailScroll = () => {
-        const max = Math.max(rail.scrollWidth - rail.clientWidth, 1);
-        apply(rail.scrollLeft / max);
-      };
-      rail.addEventListener('scroll', onRailScroll, { passive: true });
-      apply(0);
-    }
 
     const buttons = Array.from(el.querySelectorAll<HTMLElement>(`.${s.btn}`));
     const onBtnMove = (e: PointerEvent) => {
@@ -187,30 +409,24 @@ export default function Productos() {
 
     return () => {
       trigger.current = null;
-      window.removeEventListener('resize', size);
-      if (onRailScroll) rail.removeEventListener('scroll', onRailScroll);
+      window.clearTimeout(resizeTimer);
+      window.removeEventListener('resize', onResize);
+      window.visualViewport?.removeEventListener('resize', onResize);
       buttons.forEach((btn) => {
         btn.removeEventListener('pointermove', onBtnMove);
         btn.removeEventListener('pointerleave', onBtnLeave);
       });
+      gsap.set(rail, { clearProps: 'transform' });
       ctx.revert();
     };
   }, [reduce]);
 
   const goTo = (i: number) => {
-    const el = root.current;
-    const rail = track.current;
-    if (!el || !rail) return;
-
-    if (el.classList.contains(s.swipe)) {
-      rail.scrollTo({ left: i * rail.clientWidth, behavior: 'smooth' });
-      return;
-    }
-
     const st = trigger.current;
     if (!st) return;
     const y = st.start + (st.end - st.start) * (i / (products.length - 1));
-    window.scrollTo({ top: y, behavior: 'smooth' });
+    if (lenis) lenis.scrollTo(y, { duration: 1.05 });
+    else window.scrollTo({ top: y, behavior: 'smooth' });
   };
 
   return (
@@ -219,9 +435,12 @@ export default function Productos() {
       <span ref={ink} className={s.ink} aria-hidden />
 
       <div className={s.chrome}>
-        <div>
-          <p className={s.index}>Productos</p>
-          <p className={s.line}>Lo que ya existe. Lo rentas.</p>
+        <div className={s.head}>
+          <p className={s.index}>04</p>
+          <div>
+            <h2 className={s.title}>Productos</h2>
+            <p className={s.lead}>Tres productos. Se venden. Se instalan.</p>
+          </div>
         </div>
         <div className={s.dots} role="tablist" aria-label="Productos">
           {products.map((p, i) => (
@@ -233,7 +452,7 @@ export default function Productos() {
               className={`${s.dot} ${active === i ? s.on : ''} cursor-hover`}
               onClick={() => goTo(i)}
             >
-              0{i + 1} {p.title}
+              0{i + 1} {p.tab}
             </button>
           ))}
         </div>
@@ -242,39 +461,24 @@ export default function Productos() {
       <div className={s.stage}>
         <div ref={track} className={s.track}>
           {products.map((p) => (
-            <article key={p.id} className={s.panel}>
+            <article key={p.id} className={s.panel} data-id={p.id}>
               <p className={s.colossus} aria-hidden>
                 {p.colossus}
               </p>
 
-              {p.id === 'neurona' && (
-                <div className={s.fx} aria-hidden>
-                  <p className={s.validez}>VALIDEZ</p>
+              <div className={s.body}>
+                <div className={s.copy}>
+                  <p className={s.kind}>{p.kind}</p>
+                  <h3>{p.title}</h3>
+                  {p.text.map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
+                  <Btn />
                 </div>
-              )}
-              {p.id === 'ligas' && (
-                <div className={s.fx} aria-hidden>
-                  <p className={s.score}>
-                    2<span>—</span>1
-                  </p>
-                  <p className={s.jornada}>Jornada 14 · Zona norte</p>
-                </div>
-              )}
-              {p.id === 'cotizador' && (
-                <div className={s.fx} aria-hidden>
-                  <p className={s.quote}>
-                    $<span ref={quote}>0</span>
-                  </p>
-                </div>
-              )}
 
-              <div className={s.copy}>
-                <p className={s.kind}>{p.kind}</p>
-                <h2>{p.title}</h2>
-                {p.text.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
-                <Btn />
+                {p.id === 'neurona' && <Neurona />}
+                {p.id === 'ligas' && <Ligas />}
+                {p.id === 'cotizador' && <Cotiza quote={quote} />}
               </div>
             </article>
           ))}

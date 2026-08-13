@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useReducedMotion } from 'motion/react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLenis } from 'lenis/react';
@@ -15,9 +15,9 @@ const pieces = [
     id: '01',
     kind: 'App interna',
     title: 'Credibringe',
-    for: 'Empresa que presta dinero',
+    for: 'Empresa que presta dinero a sus empleados',
     does: 'Cartera, cobro y acceso para sus clientes',
-    note: 'El equipo opera los préstamos. Quien debe también entra a ver su cuenta.',
+    note: 'Necesitaban control real de los pagos: a dónde se manda cada descuento y cuánto va. Armamos un sistema donde el equipo opera los préstamos desde un solo lugar, y quien debe puede entrar a ver su cuenta, cuánto lleva pagado y cómo va.',
     chapters: [
       {
         step: '01',
@@ -33,7 +33,7 @@ const pieces = [
       {
         step: '03',
         title: 'Cómo se armó',
-        text: 'Se construyó a cómo ellos cobran y cierran. Altas, saldos, seguimiento. El cliente consulta lo suyo sin llamar a la oficina.',
+        text: 'Se construyó como ellos cobran y cierran. Altas, saldos, seguimiento. El cliente consulta lo suyo sin llamar a la oficina.',
         sketch: 'list',
       },
       {
@@ -47,9 +47,9 @@ const pieces = [
     id: '02',
     kind: 'Sistema escolar',
     title: 'USYC',
-    for: 'Administración de una escuela',
+    for: 'Institución educativa sin control de sus pagos',
     does: 'Caja, adeudos, reportes y comprobantes',
-    note: 'Qué entró, qué se debe y el comprobante para quien pagó.',
+    note: 'No tenían forma de rastrear qué entraba y qué se debía. Construimos una caja donde cada pago queda registrado al momento, con su corte de caja por escuela, adeudos claros y comprobantes listos para entregar.',
     chapters: [
       {
         step: '01',
@@ -80,9 +80,9 @@ const pieces = [
     kind: 'Sistema · Sitio',
     title: 'Dabook',
     status: 'Próximo lanzamiento',
-    for: 'Artistas que venden su trabajo',
+    for: 'Artistas y creadores independientes',
     does: 'Cursos, producto físico y digital en un solo lugar',
-    note: 'Venden, cobran y publican de nuevo sin armar otra tienda.',
+    note: 'Una plataforma donde los artistas publican y venden sus cursos, productos digitales y físicos, y comparten su trabajo en un blog propio. Todo dentro de una comunidad de artistas emergentes donde también arman su CV y se conectan entre ellos — todo por membresía.',
     chapters: [
       {
         step: '01',
@@ -113,9 +113,9 @@ const pieces = [
     kind: 'Sitio · Sistema',
     title: 'Gym',
     status: 'En desarrollo',
-    for: 'Gimnasio: recepción y quien entrena',
+    for: 'Gimnasios y centros de membresía',
     does: 'Sitio público, membresías y quién está activo',
-    note: 'Afuera se informan. Adentro se cobra y se ve quién entra.',
+    note: 'Aplicación y sistema de contratos que maneja membresías, pagos y suscripciones desde un solo lugar, más un sitio web público donde se ve en tiempo real quién está activo.',
     chapters: [
       {
         step: '01',

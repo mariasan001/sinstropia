@@ -1,6 +1,6 @@
 .wrap {
   position: relative;
-  overflow: hidden;
+  overflow: clip;
   background: var(--white);
   color: var(--black);
   min-height: 100svh;
@@ -9,10 +9,37 @@
 .paint {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 4;
   background: var(--purple);
   transform-origin: bottom center;
   pointer-events: none;
+}
+
+.atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute;
+  left: -12%;
+  top: 18%;
+  width: min(52vw, 520px);
+  height: min(52vw, 520px);
+  border-radius: 50%;
+  border: 1.5px solid rgba(119, 83, 245, 0.22);
+}
+
+.slash {
+  position: absolute;
+  right: -4%;
+  bottom: 12%;
+  width: min(38vw, 380px);
+  height: min(38vw, 380px);
+  border-radius: 50%;
+  border: 1.5px solid rgba(193, 255, 114, 0.45);
 }
 
 .ghost {
@@ -40,16 +67,66 @@
   margin: 0 auto;
   min-height: 100svh;
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
-  align-items: center;
-  gap: 56px;
-  padding: 120px 0 100px;
+  align-content: center;
+  gap: 48px;
+  padding:
+    calc(120px + env(safe-area-inset-top, 0px))
+    0
+    calc(100px + env(safe-area-inset-bottom, 0px));
+}
+
+.head {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  align-items: baseline;
+  column-gap: 12px;
+  row-gap: 0;
+}
+
+.index {
+  margin: 0;
+  grid-column: 1;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--purple);
+}
+
+.headCopy {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.lead {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: rgba(6, 7, 9, 0.48);
+}
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  align-items: start;
+  column-gap: 72px;
+  padding-left: calc(2rem + 12px);
 }
 
 .copy {
   display: grid;
   justify-items: start;
-  gap: 18px;
+  gap: 20px;
+  min-width: 0;
 }
 
 .badge {
@@ -59,25 +136,44 @@
   height: 28px;
   padding: 0 12px;
   border-radius: 999px;
-  background: var(--green);
-  color: var(--black);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.copy h2 {
+.badge.open {
+  background: var(--green);
+  color: var(--black);
+}
+
+.badge.closed {
+  background: var(--void);
+  color: var(--white);
+}
+
+.headline {
   margin: 0;
-  font-size: clamp(34px, 5.4vw, 64px);
+  display: grid;
+  gap: 0.06em;
+  font-size: clamp(34px, 5.2vw, 64px);
   font-weight: 700;
-  letter-spacing: -0.045em;
-  line-height: 0.94;
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+}
+
+.headline span {
+  display: block;
+  white-space: nowrap;
+}
+
+.punch {
+  color: var(--black);
 }
 
 .copy > p {
   margin: 0;
-  max-width: 38rem;
+  max-width: 40ch;
   font-size: 17px;
   line-height: 1.6;
   color: rgba(6, 7, 9, 0.68);
@@ -87,10 +183,28 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 6px;
+  margin-top: 10px;
+}
+
+.stepsWrap {
+  position: relative;
+  margin: 0;
+  padding: 8px 0 0;
+}
+
+.spine {
+  position: absolute;
+  left: 19px;
+  top: 28px;
+  bottom: 28px;
+  width: 2px;
+  background: var(--green);
+  transform-origin: top center;
+  pointer-events: none;
 }
 
 .steps {
+  position: relative;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -99,26 +213,41 @@
 }
 
 .step {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: 42px 1fr;
-  gap: 16px;
-  padding: 22px 0;
-  border-top: 1px solid rgba(6, 7, 9, 0.12);
+  grid-template-columns: 40px 1fr;
+  gap: 18px;
+  padding: 26px 0;
 }
 
-.step:last-child {
-  border-bottom: 1px solid rgba(6, 7, 9, 0.12);
+.step + .step {
+  border-top: 1px solid rgba(6, 7, 9, 0.1);
 }
 
-.step span {
-  font-size: 13px;
+.num {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1.5px solid rgba(6, 7, 9, 0.12);
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--purple);
-  padding-top: 4px;
+  letter-spacing: 0.06em;
+  color: var(--black);
+  box-shadow: 0 0 0 6px var(--white);
 }
 
-.step h3 {
+.step:hover .num,
+.step:focus-within .num {
+  border-color: var(--green);
+  background: var(--green);
+  color: var(--black);
+}
+
+.step h4 {
   margin: 0 0 6px;
   font-size: 22px;
   font-weight: 700;
@@ -142,10 +271,13 @@
   gap: 10px;
   height: 52px;
   padding: 0 22px 0 24px;
+  border: 0;
   border-radius: 999px;
+  font: inherit;
   font-weight: 800;
   font-size: 14px;
   text-decoration: none;
+  cursor: pointer;
   overflow: hidden;
   isolation: isolate;
   transform: translate3d(var(--mx), var(--my), 0);
@@ -215,9 +347,8 @@
 }
 
 .secondary {
-  background: var(--white);
+  background: var(--green);
   color: var(--black);
-  border: 1px solid var(--border-soft);
 }
 
 .secondary .fill {
@@ -258,15 +389,93 @@
   .secondary:hover,
   .secondary:focus-visible {
     color: var(--white);
-    border-color: var(--purple);
+  }
+}
+
+@media (hover: none) {
+  .btn:active .fill {
+    transform: scaleY(1);
   }
 }
 
 @media (max-width: 860px) {
   .inner {
-    width: min(100%, calc(100% - 32px));
+    width: calc(100% - 32px);
+    gap: 28px;
+    padding:
+      calc(88px + env(safe-area-inset-top, 0px))
+      0
+      calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .body {
     grid-template-columns: 1fr;
-    gap: 36px;
-    padding: 88px 0 80px;
+    gap: 32px;
+    padding-left: 0;
+  }
+
+  .title {
+    font-size: clamp(24px, 7vw, 28px);
+  }
+
+  .headline {
+    font-size: clamp(26px, 7.4vw, 40px);
+  }
+
+  .headline span {
+    white-space: normal;
+  }
+
+  .copy > p {
+    max-width: none;
+    font-size: 15px;
+  }
+
+  .btn {
+    height: 40px;
+    padding: 0 14px 0 16px;
+    font-size: 13px;
+  }
+
+  .arrow {
+    width: 14px;
+    height: 14px;
+  }
+
+  .step {
+    padding: 20px 0;
+  }
+
+  .step h4 {
+    font-size: 18px;
+  }
+
+  .stepsWrap {
+    padding-top: 0;
+  }
+
+  .spine {
+    top: 22px;
+    bottom: 22px;
+  }
+
+  .ring {
+    left: -28%;
+    top: 8%;
+    width: 70vw;
+    height: 70vw;
+  }
+
+  .slash {
+    right: -22%;
+    bottom: 4%;
+    width: 55vw;
+    height: 55vw;
+  }
+
+  .ghost {
+    font-size: 42vw;
+    bottom: -0.26em;
+    -webkit-text-stroke-width: 1.5px;
   }
 }

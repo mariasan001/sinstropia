@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useReducedMotion } from 'motion/react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { bindReveal } from '@/motion/reveal';
@@ -13,10 +13,10 @@ const notes = [
   {
     id: 'cb',
     name: 'Credibringe',
-    who: 'Dirección',
+    who: 'Préstamos a empleados',
     lines: [
-      'Teníamos los préstamos en Excel y se nos escapaba todo.',
-      'Ahora el equipo opera desde adentro y nuestros clientes también entran. Se usa todos los días.',
+      'No sabíamos quién debía qué, ni cuándo se le iba a descontar.',
+      'Hoy cada empleado entra y ve su cuenta: cuánto debe, cuánto ha pagado y cómo va.',
     ],
     mark: (
       <svg viewBox="0 0 48 48" aria-hidden>
@@ -96,6 +96,7 @@ export default function Opinan() {
   const wait = useRef<HTMLSpanElement>(null);
   const busy = useRef(false);
   const index = useRef(0);
+  const primed = useRef(false);
   const [active, setActive] = useState(0);
   const note = notes[active];
 
@@ -120,7 +121,55 @@ export default function Opinan() {
           },
         );
       }
-      bindReveal(el, el.querySelectorAll(`.${s.head}, .${s.bar}`), { start: 'top 82%', end: 'top 8%' });
+      bindReveal(el, el.querySelectorAll(`.${s.head}, .${s.bar}`), {
+        start: 'top 80%',
+        end: 'bottom 14%',
+      });
+
+      const bits = () => el.querySelectorAll(`.${s.rise}`);
+      gsap.set(bits(), { yPercent: 115 });
+
+      const playRise = () => {
+        gsap.fromTo(
+          bits(),
+          { yPercent: 115 },
+          { yPercent: 0, duration: 0.62, stagger: 0.055, ease: 'power3.out', overwrite: 'auto' },
+        );
+      };
+      const playLeave = (dir: 'up' | 'down') => {
+        gsap.to(bits(), {
+          yPercent: dir === 'up' ? -110 : 115,
+          duration: 0.36,
+          stagger: 0.03,
+          ease: 'power3.in',
+          overwrite: 'auto',
+        });
+      };
+
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 78%',
+        end: 'bottom 14%',
+        onEnter: playRise,
+        onEnterBack: playRise,
+        onLeave: () => playLeave('up'),
+        onLeaveBack: () => playLeave('down'),
+      });
+
+      el.querySelectorAll(`.${s.name}`).forEach((btn, i) => {
+        gsap.set(btn, { y: 16, autoAlpha: 0 });
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 78%',
+          end: 'bottom 14%',
+          onEnter: () =>
+            gsap.to(btn, { y: 0, autoAlpha: 1, duration: 0.5, delay: 0.08 * i, ease: 'power3.out', overwrite: 'auto' }),
+          onEnterBack: () =>
+            gsap.to(btn, { y: 0, autoAlpha: 1, duration: 0.45, delay: 0.05 * i, ease: 'power3.out', overwrite: 'auto' }),
+          onLeave: () => gsap.to(btn, { y: -12, autoAlpha: 0, duration: 0.28, ease: 'power2.in', overwrite: 'auto' }),
+          onLeaveBack: () => gsap.to(btn, { y: 16, autoAlpha: 0, duration: 0.28, ease: 'power2.in', overwrite: 'auto' }),
+        });
+      });
     }, el);
 
     return () => ctx.revert();
@@ -162,6 +211,21 @@ export default function Opinan() {
     tl.to(body, { y: 0, autoAlpha: 1, duration: 0.42, ease: 'power3.out' });
     if (name) tl.to(name, { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' }, '<');
   };
+
+  useEffect(() => {
+    if (!primed.current) {
+      primed.current = true;
+      return;
+    }
+    const el = root.current;
+    if (!el || reduce) return;
+    const bits = el.querySelectorAll(`.${s.rise}`);
+    gsap.fromTo(
+      bits,
+      { yPercent: 115 },
+      { yPercent: 0, duration: 0.58, stagger: 0.05, ease: 'power3.out', overwrite: 'auto' },
+    );
+  }, [active, reduce]);
 
   useEffect(() => {
     const bar = wait.current;
@@ -234,18 +298,32 @@ export default function Opinan() {
 
         <article ref={copy} className={s.copy}>
           <span className={s.mark} aria-hidden>
-            ”
+            <span className={s.clip}>
+              <span className={s.rise}>”</span>
+            </span>
           </span>
           <blockquote>
             {note.lines.map((line) => (
-              <p key={line}>{line}</p>
+              <p key={line}>
+                <span className={s.clip}>
+                  <span className={s.rise}>{line}</span>
+                </span>
+              </p>
             ))}
           </blockquote>
           <footer className={s.who}>
             <span className={s.logo}>{note.mark}</span>
             <div className={s.meta}>
-              <strong>{note.name}</strong>
-              <em>{note.who}</em>
+              <strong>
+                <span className={s.clip}>
+                  <span className={s.rise}>{note.name}</span>
+                </span>
+              </strong>
+              <em>
+                <span className={s.clip}>
+                  <span className={s.rise}>{note.who}</span>
+                </span>
+              </em>
             </div>
           </footer>
         </article>

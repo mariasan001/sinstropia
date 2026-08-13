@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useReducedMotion } from 'motion/react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MOTION } from '@/motion/reveal';
@@ -92,15 +92,15 @@ export default function Hero({ ready = true }: Props) {
 
     if (!coarse) {
       buttons.forEach((btn) => {
-        btn.addEventListener('pointermove', onBtnMove);
-        btn.addEventListener('pointerleave', onBtnLeave);
+        btn.addEventListener('pointermove', onBtnMove as EventListener);
+        btn.addEventListener('pointerleave', onBtnLeave as EventListener);
       });
     }
 
     return () => {
       buttons.forEach((btn) => {
-        btn.removeEventListener('pointermove', onBtnMove);
-        btn.removeEventListener('pointerleave', onBtnLeave);
+        btn.removeEventListener('pointermove', onBtnMove as EventListener);
+        btn.removeEventListener('pointerleave', onBtnLeave as EventListener);
       });
       ctx.revert();
     };
@@ -143,8 +143,9 @@ export default function Hero({ ready = true }: Props) {
 
       <div className={s.dock}>
         <p className={s.lead}>
-          Nos sentamos con lo que traes, encontramos su fortaleza y lo
-          construimos como si fuera nuestro. Web, app o un producto propio:
+          No necesitas llegar con todo resuelto. Nos cuentas la idea —completa o
+          a medio armar— nosotros le vemos el potencial y la construimos como si
+          fuera nuestra. Sistemas, apps móviles o páginas web: si lo imaginaste,
           sale del cuaderno y llega al mundo.
         </p>
         <div className={s.actions}>

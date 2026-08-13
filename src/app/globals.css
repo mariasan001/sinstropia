@@ -12,11 +12,21 @@
   --surface: var(--white);
   --border-soft: var(--gray);
   --shadow: 0 14px 28px rgba(6, 7, 9, 0.1);
-  --focus: rgba(119, 83, 245, 0.28);
 }
 
 * { box-sizing: border-box; }
-html, body { height: 100%; }
+
+html,
+body {
+  height: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.pin-spacer {
+  max-width: 100%;
+  overflow: clip;
+}
 
 body {
   margin: 0;

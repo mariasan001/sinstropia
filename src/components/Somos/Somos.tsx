@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useReducedMotion } from 'motion/react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { bindReveal } from '@/motion/reveal';
+import { hide, playIn } from '@/motion/reveal';
 import s from './Somos.module.scss';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -71,7 +71,16 @@ export default function Somos() {
         );
       }
 
-      bindReveal(el, q(`.${s.copy} > *`));
+      const targets = q(`.${s.head}, .${s.leadCol} > *, .${s.story} > *`);
+      hide(targets);
+      const reveal = () => playIn(targets);
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 78%',
+        onEnter: reveal,
+        onEnterBack: reveal,
+      });
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.9) reveal();
     }, el);
 
     const coarse = window.matchMedia('(hover: none), (pointer: coarse)').matches;
@@ -106,32 +115,58 @@ export default function Somos() {
   return (
     <section ref={root} className={s.wrap} id="about" aria-label="Somos">
       <div ref={paint} className={s.paint} aria-hidden />
+      <div className={s.atmosphere} aria-hidden>
+        <span className={s.ring} />
+        <span className={s.slash} />
+      </div>
       <p className={s.ghost} aria-hidden>
         Somos
       </p>
 
-      <div className={s.copy}>
-        <p className={s.kicker}>Agencia digital</p>
-        <h2>
-          Chicos que creen
-          que un sistema
-          se hace con creatividad.
-        </h2>
-        <p>
-          No crear por crear. Llevar lo que llega a su máximo potencial — y
-          seguir ahí cuando ya está andando. Nos sentamos con la idea. No la
-          recortamos. La construimos como si fuera nuestra.
-        </p>
-        <p>
-          Página, app o producto. Si ya existe, se renta. Si el proyecto da
-          para más, hay convocatoria y podemos ser socios.
-        </p>
-        <p className={s.place}>
-          En donde el proyecto quepa. Desde México. Contigo.
-        </p>
-        <div className={s.actions}>
-          <Btn href="#contact" variant="primary" now="Escribirnos" next="Empezar" />
-          <Btn href="#projects" variant="secondary" now="Ver el trabajo" next="Entrar" />
+      <div className={s.inner}>
+        <div className={s.head}>
+          <p className={s.index}>06</p>
+          <div className={s.headCopy}>
+            <h2 className={s.title}>Somos</h2>
+            <p className={s.kicker}>Agencia digital</p>
+          </div>
+        </div>
+
+        <div className={s.body}>
+          <div className={s.leadCol}>
+            <h3 className={s.headline} data-nosplit="1">
+              <span>Construimos lo que imaginas</span>
+              <span className={s.punch}>como si fuera nuestro.</span>
+            </h3>
+            <p className={s.lead}>
+              Hay ideas que merecen algo más que una entrega rápida. Merecen tiempo,
+              atención y personas que crean en ellas tanto como tú.
+            </p>
+            <div className={s.actions}>
+              <Btn href="#contact" variant="primary" now="Escribirnos" next="Empezar" />
+              <Btn href="#projects" variant="secondary" now="Ver el trabajo" next="Entrar" />
+            </div>
+          </div>
+
+          <div className={s.story}>
+            <p>
+              Nos involucramos desde el primer boceto hasta el último detalle.
+              Pensamos, diseñamos, desarrollamos y mejoramos cada producto con la
+              misma dedicación con la que construiríamos el nuestro.
+            </p>
+            <p>
+              No buscamos hacer más proyectos. Buscamos crear productos que duren,
+              que resuelvan problemas reales y que hagan sentir orgullo a quienes
+              los lanzan.
+            </p>
+            <p>
+              Creamos páginas web, aplicaciones y software para personas y empresas
+              que quieren construir algo grande.
+            </p>
+            <p className={s.place}>
+              Desde México, desarrollando tecnología para cualquier lugar del mundo.
+            </p>
+          </div>
         </div>
       </div>
     </section>

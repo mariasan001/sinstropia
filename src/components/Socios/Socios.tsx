@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useReducedMotion } from 'motion/react';
+import Link from 'next/link';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { bindReveal } from '@/motion/reveal';
+import { hide, playIn } from '@/motion/reveal';
+import { callStatus } from '@/config/ventures';
+import { rememberReturn } from '@/components/providers/ScrollToHash';
 import s from './Socios.module.scss';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,14 +17,16 @@ function Btn({
   variant,
   now,
   next,
+  onClick,
 }: {
   href: string;
   variant: 'primary' | 'secondary';
   now: string;
   next: string;
+  onClick?: () => void;
 }) {
   return (
-    <a className={`${s.btn} ${s[variant]} cursor-hover`} href={href}>
+    <Link className={`${s.btn} ${s[variant]} cursor-hover`} href={href} onClick={onClick}>
       <span className={s.fill} aria-hidden />
       <span className={s.label}>
         <span>{now}</span>
@@ -39,7 +44,7 @@ function Btn({
           </svg>
         </b>
       </span>
-    </a>
+    </Link>
   );
 }
 
@@ -47,6 +52,7 @@ export default function Socios() {
   const reduce = useReducedMotion();
   const root = useRef<HTMLElement>(null);
   const paint = useRef<HTMLDivElement>(null);
+  const status = callStatus();
 
   useEffect(() => {
     const el = root.current;
@@ -71,7 +77,34 @@ export default function Socios() {
         );
       }
 
-      bindReveal(el, q(`.${s.copy} > *, .${s.step}`));
+      const targets = q(`.${s.head}, .${s.copy} > *, .${s.step}`);
+      hide(targets);
+      const reveal = () => playIn(targets);
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 78%',
+        onEnter: reveal,
+        onEnterBack: reveal,
+      });
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.9) reveal();
+
+      const spine = q(`.${s.spine}`);
+      if (spine.length) {
+        gsap.fromTo(
+          spine,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: q(`.${s.stepsWrap}`)[0] as Element,
+              start: 'top 75%',
+              end: 'bottom 55%',
+              scrub: 0.5,
+            },
+          },
+        );
+      }
     }, el);
 
     const coarse = window.matchMedia('(hover: none), (pointer: coarse)').matches;
@@ -106,56 +139,79 @@ export default function Socios() {
   return (
     <section ref={root} className={s.wrap} id="socios" aria-label="Socios">
       <div ref={paint} className={s.paint} aria-hidden />
+      <div className={s.atmosphere} aria-hidden>
+        <span className={s.ring} />
+        <span className={s.slash} />
+      </div>
       <p className={s.ghost} aria-hidden>
         Socios
       </p>
 
       <div className={s.inner}>
-        <div className={s.copy}>
-          <p className={s.badge}>Nuevo</p>
-          <h2>
-            Traes el proyecto.
-            Si tiene potencial,
-            entramos como socios.
-          </h2>
-          <p>
-            Es una modalidad nueva: colaboración. No cotizas un servicio y se
-            acaba. Ponemos todo nuestro oficio —diseño, arquitectura,
-            desarrollo, lanzamiento— para llevarlo hasta el final. A cambio
-            somos socios: una parte del proyecto.
-          </p>
-          <p>
-            No llegan todo el año. Llegan cuando abre la convocatoria.
-          </p>
-          <div className={s.actions}>
-            <Btn href="#contact" variant="primary" now="Avisarme" next="Escribirnos" />
-            <Btn href="#contact" variant="secondary" now="Cotizar servicio" next="Hacemos" />
+        <div className={s.head}>
+          <p className={s.index}>05</p>
+          <div className={s.headCopy}>
+            <h2 className={s.title}>Socios</h2>
+            <p className={s.lead}>{status.lead}</p>
           </div>
         </div>
 
-        <ol className={s.steps}>
-          <li className={s.step}>
-            <span>01</span>
-            <div>
-              <h3>Convocatoria</h3>
-              <p>Una al año. Ahí se postulan los proyectos. No hay fila permanente.</p>
+        <div className={s.body}>
+          <div className={s.copy}>
+            <p className={`${s.badge} ${status.open ? s.open : s.closed}`}>{status.badge}</p>
+            <h3 className={s.headline} data-nosplit="1">
+              <span>Escuchamos tu idea.</span>
+              <span className={s.punch}>Apostamos por ella.</span>
+            </h3>
+            <p>
+              Cuando un proyecto nos convence, entramos como socios: desarrollo, diseño,
+              estrategia y mentoría a cambio de equity. No es un servicio que se cotiza.
+            </p>
+            <p>{status.note}</p>
+            <div className={s.actions}>
+              <Btn
+                href="/ventures"
+                variant="primary"
+                now="Saber más"
+                next="Conocer más"
+                onClick={() => rememberReturn('#socios')}
+              />
+              <Btn
+                href={status.cta.href}
+                variant="secondary"
+                now={status.cta.now}
+                next={status.cta.next}
+              />
             </div>
-          </li>
-          <li className={s.step}>
-            <span>02</span>
-            <div>
-              <h3>Valoramos</h3>
-              <p>Vemos cuál tiene potencial. No entramos a todos. Lo decimos claro.</p>
-            </div>
-          </li>
-          <li className={s.step}>
-            <span>03</span>
-            <div>
-              <h3>Sociedad</h3>
-              <p>Si entra, ponemos todo. Ellos traen la idea y el empuje. Nosotros, el oficio. A cambio, una parte.</p>
-            </div>
-          </li>
-        </ol>
+          </div>
+
+          <div className={s.stepsWrap}>
+            <span className={s.spine} aria-hidden />
+            <ol className={s.steps}>
+              <li className={s.step}>
+                <span className={s.num}>01</span>
+                <div>
+                  <h4>Aplicas</h4>
+                  <p>Nos cuentas el problema, para quién y por qué tiene potencial.</p>
+                </div>
+              </li>
+              <li className={s.step}>
+                <span className={s.num}>02</span>
+                <div>
+                  <h4>Evaluamos</h4>
+                  <p>Mercado, acceso a clientes, viabilidad y forma de generar ingresos.</p>
+                </div>
+              </li>
+              <li className={s.step}>
+                <span className={s.num}>03</span>
+                <div>
+                  <h4>Construimos</h4>
+                  <p>Si entra, definimos equity, armamos el plan y nos ponemos a construir.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -95,6 +95,15 @@
   color: rgba(6, 7, 9, 0.32);
 }
 
+.clip {
+  display: block;
+  overflow: hidden;
+}
+
+.rise {
+  display: inline-block;
+}
+
 .copy {
   display: grid;
   gap: 32px;
