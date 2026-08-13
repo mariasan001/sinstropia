@@ -1,18 +1,35 @@
-'use client';
+import type { Metadata } from 'next';
+import VenturesClient from '@/components/Ventures/VenturesClient';
+import JsonLd from '@/components/Seo/JsonLd';
+import {
+  VENTURES_DESCRIPTION,
+  VENTURES_OG_TITLE,
+  VENTURES_TITLE,
+} from '@/config/seo';
+import { organizationJsonLd, venturesJsonLd } from '@/config/schema';
 
-import dynamic from 'next/dynamic';
-import Navbar from '@/components/Navbar/Navbar';
-import SmoothScroll from '@/components/providers/SmoothScroll';
-import Ventures from '@/components/Ventures/Ventures';
-
-const Footer = dynamic(() => import('@/components/Footer/Footer'));
+export const metadata: Metadata = {
+  title: VENTURES_TITLE,
+  description: VENTURES_DESCRIPTION,
+  alternates: {
+    canonical: '/ventures',
+  },
+  openGraph: {
+    url: '/ventures',
+    title: VENTURES_OG_TITLE,
+    description: VENTURES_DESCRIPTION,
+  },
+  twitter: {
+    title: VENTURES_OG_TITLE,
+    description: VENTURES_DESCRIPTION,
+  },
+};
 
 export default function VenturesPage() {
   return (
-    <SmoothScroll>
-      <Navbar />
-      <Ventures />
-      <Footer />
-    </SmoothScroll>
+    <>
+      <JsonLd data={[organizationJsonLd(), venturesJsonLd()]} />
+      <VenturesClient />
+    </>
   );
 }
