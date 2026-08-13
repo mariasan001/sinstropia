@@ -4,13 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { usePathname } from 'next/navigation';
+import { HOME_SECTIONS, MAIN_NAV } from '@/config/nav';
 import s from './Navbar.module.scss';
-
-type NavItem = { label: string; href: string; tag?: string };
 
 function Cta({
   className,
-  href = '#cotizar',
+  href = `#${HOME_SECTIONS.cotizar.id}`,
   onClick,
 }: {
   className?: string;
@@ -40,15 +39,7 @@ function Cta({
   );
 }
 
-const nav: NavItem[] = [
-  { label: 'Inicio', href: '#inicio' },
-  { label: 'Desarrollo', href: '#projects' },
-  { label: 'Hacemos', href: '#services' },
-  { label: 'Productos', href: '#productos' },
-  { label: 'Socios', href: '#socios', tag: 'Nuevo' },
-  { label: 'Somos', href: '#about' },
-  { label: 'Contacto', href: '#contact' },
-];
+const nav = MAIN_NAV;
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -59,7 +50,7 @@ export default function Navbar() {
   const lastY = useRef(0);
   const ticking = useRef(false);
 
-  const activeHref = home ? '#inicio' : '';
+  const activeHref = home ? `#${HOME_SECTIONS.inicio.id}` : '';
 
   useEffect(() => {
     lastY.current = window.scrollY;
@@ -171,7 +162,7 @@ export default function Navbar() {
               })}
             </ul>
 
-            <Cta className={s.cta} href={to('#cotizar')} />
+            <Cta className={s.cta} href={to(`#${HOME_SECTIONS.cotizar.id}`)} />
           </>
         )}
 
@@ -212,7 +203,7 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          <Cta className={s.sheetCta} href={to('#cotizar')} onClick={close} />
+          <Cta className={s.sheetCta} href={to(`#${HOME_SECTIONS.cotizar.id}`)} onClick={close} />
         </div>
       </div>
     </header>

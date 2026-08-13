@@ -135,7 +135,7 @@ export default function Contacto() {
   }, [reduce]);
 
   return (
-    <section ref={root} className={s.wrap} id="contact" aria-label="Contacto">
+    <section ref={root} className={s.wrap} id="contacto" aria-label="Contacto">
       <div ref={paint} className={s.paint} aria-hidden />
       <div className={s.atmosphere} aria-hidden>
         <span className={s.ring} />
@@ -147,7 +147,7 @@ export default function Contacto() {
 
       <div className={s.inner}>
         <div className={s.head}>
-          <p className={s.index}>07</p>
+          <p className={s.index}>08</p>
           <div className={s.headCopy}>
             <h2 className={s.title}>Contacto</h2>
             <p className={s.meta}>Teléfono · correo · WhatsApp</p>

@@ -219,8 +219,8 @@ export default function Hacemos() {
     <section
       ref={root}
       className={s.wrap}
-      id="services"
-      aria-label="Cómo trabajamos"
+      id="hacemos"
+      aria-label="Hacemos"
       data-step={beat.id}
     >
       <div ref={paint} className={s.paint} aria-hidden />
@@ -229,8 +229,8 @@ export default function Hacemos() {
       <div className={s.stage}>
         <div className={s.copy}>
           <div className={s.head}>
-            <p className={s.index}>03</p>
-            <h2 className={s.title}>Cómo trabajamos</h2>
+            <p className={s.index}>04</p>
+            <h2 className={s.title}>Hacemos</h2>
           </div>
           <h2 className={s.words}>
             {beats.map((item, i) => (

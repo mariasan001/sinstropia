@@ -48,7 +48,7 @@ const products = [
 
 function Btn() {
   return (
-    <a className={`${s.btn} cursor-hover`} href="#contact">
+    <a className={`${s.btn} cursor-hover`} href="#contacto">
       <span className={s.fill} aria-hidden />
       <span className={s.label}>
         <span>Comprar</span>
@@ -436,7 +436,7 @@ export default function Productos() {
 
       <div className={s.chrome}>
         <div className={s.head}>
-          <p className={s.index}>04</p>
+          <p className={s.index}>05</p>
           <div>
             <h2 className={s.title}>Productos</h2>
             <p className={s.lead}>Tres productos. Se venden. Se instalan.</p>

@@ -149,7 +149,7 @@ export default function Socios() {
 
       <div className={s.inner}>
         <div className={s.head}>
-          <p className={s.index}>05</p>
+          <p className={s.index}>06</p>
           <div className={s.headCopy}>
             <h2 className={s.title}>Socios</h2>
             <p className={s.lead}>{status.lead}</p>

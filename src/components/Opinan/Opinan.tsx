@@ -281,7 +281,11 @@ export default function Opinan() {
 
       <div className={s.stage}>
         <header className={s.head}>
-          <p className={s.kicker}>Cómo lo cuentan</p>
+          <div className={s.headCopy}>
+            <p className={s.index}>03</p>
+            <h2 className={s.title}>Opinan</h2>
+            <p className={s.kicker}>Cómo lo cuentan</p>
+          </div>
           <div className={s.step}>
             <button type="button" className={`${s.dir} cursor-hover`} onClick={() => show(active - 1)} aria-label="Anterior">
               ←

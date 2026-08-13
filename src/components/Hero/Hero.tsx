@@ -149,7 +149,7 @@ export default function Hero({ ready = true }: Props) {
           sale del cuaderno y llega al mundo.
         </p>
         <div className={s.actions}>
-          <a className={`${s.btn} ${s.primary}`} href="#contact">
+          <a className={`${s.btn} ${s.primary}`} href="#contacto">
             <span className={s.fill} aria-hidden />
             <span className={s.label}>
               <span>Escribirnos</span>
@@ -157,7 +157,7 @@ export default function Hero({ ready = true }: Props) {
             </span>
             <Arrow />
           </a>
-          <a className={`${s.btn} ${s.secondary}`} href="#projects">
+          <a className={`${s.btn} ${s.secondary}`} href="#desarrollo">
             <span className={s.fill} aria-hidden />
             <span className={s.label}>
               <span>Ver el trabajo</span>

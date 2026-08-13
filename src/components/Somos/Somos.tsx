@@ -113,7 +113,7 @@ export default function Somos() {
   }, [reduce]);
 
   return (
-    <section ref={root} className={s.wrap} id="about" aria-label="Somos">
+    <section ref={root} className={s.wrap} id="somos" aria-label="Somos">
       <div ref={paint} className={s.paint} aria-hidden />
       <div className={s.atmosphere} aria-hidden>
         <span className={s.ring} />
@@ -125,7 +125,7 @@ export default function Somos() {
 
       <div className={s.inner}>
         <div className={s.head}>
-          <p className={s.index}>06</p>
+          <p className={s.index}>07</p>
           <div className={s.headCopy}>
             <h2 className={s.title}>Somos</h2>
             <p className={s.kicker}>Agencia digital</p>
@@ -143,8 +143,8 @@ export default function Somos() {
               atención y personas que crean en ellas tanto como tú.
             </p>
             <div className={s.actions}>
-              <Btn href="#contact" variant="primary" now="Escribirnos" next="Empezar" />
-              <Btn href="#projects" variant="secondary" now="Ver el trabajo" next="Entrar" />
+              <Btn href="#contacto" variant="primary" now="Escribirnos" next="Empezar" />
+              <Btn href="#desarrollo" variant="secondary" now="Ver el trabajo" next="Entrar" />
             </div>
           </div>
 

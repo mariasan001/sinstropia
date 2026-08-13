@@ -5,17 +5,10 @@ import { usePathname } from 'next/navigation';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import gsap from 'gsap';
 import { bindReveal } from '@/motion/reveal';
+import { FOOTER_NAV, HOME_SECTIONS } from '@/config/nav';
 import s from './Footer.module.scss';
 
-const links = [
-  { label: 'Inicio', href: '#inicio' },
-  { label: 'Desarrollo', href: '#projects' },
-  { label: 'Hacemos', href: '#services' },
-  { label: 'Productos', href: '#productos' },
-  { label: 'Socios', href: '#socios' },
-  { label: 'Somos', href: '#about' },
-  { label: 'Contacto', href: '#contact' },
-];
+const links = FOOTER_NAV;
 
 export default function Footer() {
   const reduce = useReducedMotion();
@@ -39,7 +32,7 @@ export default function Footer() {
   return (
     <footer ref={root} className={s.wrap}>
       <div className={s.top}>
-        <a href={to('#inicio')} className={s.brand}>
+        <a href={to(`#${HOME_SECTIONS.inicio.id}`)} className={s.brand}>
           Sintropía
         </a>
         <nav aria-label="Pie">

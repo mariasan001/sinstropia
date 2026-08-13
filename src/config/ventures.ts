@@ -12,15 +12,15 @@ export function callStatus() {
         badge: 'Convocatoria abierta',
         lead: `Sintropía Ventures · ${venturesCall.slots} cupos · temporada ${venturesCall.season}`,
         note: `Abrimos cupos por temporada. Solo ${venturesCall.slots} proyectos al año. Ahora hay convocatoria abierta.`,
-        cta: { href: '#contact' as const, now: 'Aplicar', next: 'Escribirnos' },
-        apply: { href: '/#contact' as const, now: 'Aplicar a esta convocatoria', next: 'Escribirnos' },
+        cta: { href: '#contacto' as const, now: 'Aplicar', next: 'Escribirnos' },
+        apply: { href: '/#contacto' as const, now: 'Aplicar a esta convocatoria', next: 'Escribirnos' },
       }
     : {
         open: false as const,
         badge: 'Convocatoria cerrada',
         lead: `Sintropía Ventures · ${venturesCall.slots} cupos / año · temporada ${venturesCall.season}`,
         note: `Los cupos de esta temporada ya están tomados. Déjanos tu correo y te avisamos cuando abra la siguiente.`,
-        cta: { href: '#contact' as const, now: 'Avisarme', next: 'Escribirnos' },
-        apply: { href: '/#contact' as const, now: 'Avisarme cuando abra', next: 'Escribirnos' },
+        cta: { href: '#contacto' as const, now: 'Avisarme', next: 'Escribirnos' },
+        apply: { href: '/#contacto' as const, now: 'Avisarme cuando abra', next: 'Escribirnos' },
       };
 }
