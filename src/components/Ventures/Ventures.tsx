@@ -131,7 +131,9 @@ export default function Ventures() {
                 now={status.apply.now}
                 next={status.apply.next}
               />
-              <Btn href="/#socios" variant="secondary" now="Volver" next="Socios" />
+              {status.open ? (
+                <Btn href="/#socios" variant="secondary" now="Volver" next="Socios" />
+              ) : null}
             </div>
           </div>
         </div>

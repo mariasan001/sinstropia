@@ -165,19 +165,30 @@ export default function Socios() {
             </p>
             <p>{status.note}</p>
             <div className={s.actions}>
-              <Btn
-                href="/ventures"
-                variant="primary"
-                now="Saber más"
-                next="Conocer más"
-                onClick={() => rememberReturn('#socios')}
-              />
-              <Btn
-                href={status.cta.href}
-                variant="secondary"
-                now={status.cta.now}
-                next={status.cta.next}
-              />
+              {status.open ? (
+                <>
+                  <Btn
+                    href="/ventures"
+                    variant="primary"
+                    now="Saber más"
+                    next="Conocer más"
+                    onClick={() => rememberReturn('#socios')}
+                  />
+                  <Btn
+                    href={status.cta.href}
+                    variant="secondary"
+                    now={status.cta.now}
+                    next={status.cta.next}
+                  />
+                </>
+              ) : (
+                <Btn
+                  href={status.cta.href}
+                  variant="primary"
+                  now={status.cta.now}
+                  next={status.cta.next}
+                />
+              )}
             </div>
           </div>
 

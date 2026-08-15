@@ -1,6 +1,6 @@
 /** Flip this when the Ventures call opens or closes. */
 export const venturesCall = {
-  open: true,
+  open: false,
   season: '2026',
   slots: 2,
 } as const;
@@ -18,9 +18,9 @@ export function callStatus() {
     : {
         open: false as const,
         badge: 'Convocatoria cerrada',
-        lead: `Sintropía Ventures · ${venturesCall.slots} cupos / año · temporada ${venturesCall.season}`,
-        note: `Los cupos de esta temporada ya están tomados. Déjanos tu correo y te avisamos cuando abra la siguiente.`,
+        lead: `Sintropía Ventures · temporada ${venturesCall.season} · cupos cerrados`,
+        note: `Por ahora la convocatoria está cerrada. Déjanos tu WhatsApp o correo y te avisamos cuando abra la siguiente.`,
         cta: { href: '#contacto' as const, now: 'Avisarme', next: 'Escribirnos' },
-        apply: { href: '/#contacto' as const, now: 'Avisarme cuando abra', next: 'Escribirnos' },
+        apply: { href: '/#contacto' as const, now: 'Avisarme', next: 'Escribirnos' },
       };
 }

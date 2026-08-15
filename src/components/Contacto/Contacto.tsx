@@ -9,7 +9,7 @@ import s from './Contacto.module.scss';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const MAIL = 'hola@sintropia.mx';
+const MAIL = 'hola@sintropia-dev.com';
 
 const phones = [
   { label: '722 606 8056', tel: '+527226068056', wa: '527226068056' },
@@ -146,18 +146,26 @@ export default function Contacto() {
           <p className={s.index}>08</p>
           <div className={s.headCopy}>
             <h2 className={s.title}>Contacto</h2>
-            <p className={s.meta}>Teléfono · correo · WhatsApp</p>
+            <p className={s.meta}>WhatsApp · correo</p>
           </div>
         </div>
 
         <div className={s.body}>
           <div className={s.dial}>
             {phones.map((phone, i) => (
-              <a key={phone.tel} className={`${s.hit} cursor-hover`} href={`tel:${phone.tel}`}>
+              <a
+                key={phone.wa}
+                className={`${s.hit} cursor-hover`}
+                href={`https://wa.me/${phone.wa}?text=${encodeURIComponent(
+                  'Hola Sintropía, quiero platicar de un proyecto.',
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>0{i + 1}</span>
                 <div>
                   <b>{phone.label}</b>
-                  <em>Llamar</em>
+                  <em>WhatsApp</em>
                 </div>
               </a>
             ))}
@@ -176,8 +184,8 @@ export default function Contacto() {
               <span className={s.punch}>Nos sentamos.</span>
             </h3>
             <p className={s.lead}>
-              Llámanos, escríbenos o mándanos un WhatsApp. Si quieres cotizar, el
-              botón Cotizar está siempre a la mano.
+              Escríbenos o mándanos un WhatsApp. Si quieres cotizar, el botón Cotizar
+              está siempre a la mano.
             </p>
             <div className={s.actions}>
               <Btn href={waHref} variant="void" now="WhatsApp" next="Abrir chat" />

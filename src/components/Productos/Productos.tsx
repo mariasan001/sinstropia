@@ -58,6 +58,25 @@ const products = [
   },
 ] as const;
 
+/** Temporal: solo “Solicitar demo” por WhatsApp. Volver a CTAs cuando toque. */
+const DEMO_ONLY = true;
+const WA_DEMO = '527226068056';
+
+const demoMessages: Record<(typeof products)[number]['id'], string> = {
+  neurona:
+    'Hola, quiero solicitar una demo de Neurona (validador). Me interesa ver cómo valida texto, video o audio con nuestras reglas.',
+  ligas:
+    'Hola, quiero solicitar una demo de Once (app de ligas). Me interesa ver tablas, partidos, noticias y seguimiento en el teléfono.',
+  cotizador:
+    'Hola, quiero solicitar una demo del Cotizador. Me interesa ver cotizaciones con IA, formatos, sitio y seguimiento para mi negocio.',
+  facturado:
+    'Hola, me interesa Facturado fiscal. Quiero que me avisen / me muestren una demo cuando esté listo para emitir CFDI y control fiscal.',
+};
+
+function waDemoHref(id: (typeof products)[number]['id']) {
+  return `https://wa.me/${WA_DEMO}?text=${encodeURIComponent(demoMessages[id])}`;
+}
+
 /** Sitio de Once (externo). Cuando exista, define las URLs en .env */
 const ONCE_CONOCER_URL = process.env.NEXT_PUBLIC_ONCE_URL ?? '';
 const ONCE_RENTAR_URL = process.env.NEXT_PUBLIC_ONCE_RENT_URL ?? '';
@@ -80,6 +99,26 @@ function Arrow() {
 }
 
 function Actions({ id }: { id: (typeof products)[number]['id'] }) {
+  if (DEMO_ONLY) {
+    return (
+      <div className={s.actions}>
+        <a
+          className={`${s.btn} cursor-hover`}
+          href={waDemoHref(id)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span className={s.fill} aria-hidden />
+          <span className={s.label}>
+            <span>Solicitar demo</span>
+            <span>WhatsApp</span>
+          </span>
+          <Arrow />
+        </a>
+      </div>
+    );
+  }
+
   if (id === 'neurona') {
     return (
       <div className={s.actions}>

@@ -48,7 +48,7 @@ export default function Footer() {
       <div className={s.bottom}>
         <p>México</p>
         <p>© {new Date().getFullYear()} Sintropía</p>
-        <a href="mailto:hola@sintropia.mx">hola@sintropia.mx</a>
+        <a href="mailto:hola@sintropia-dev.com">hola@sintropia-dev.com</a>
       </div>
     </footer>
   );

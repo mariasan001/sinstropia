@@ -11,7 +11,7 @@ export const SITE_TAGLINE = 'Construimos lo que imaginas como si fuera nuestro.'
 export const SITE_DESCRIPTION =
   'Agencia digital en México: desarrollo de sistemas, apps móviles y páginas web. Nos involucramos desde el boceto hasta el producto en el aire.';
 export const SITE_LOCALE = 'es_MX';
-export const SITE_EMAIL = 'hola@sintropia.mx';
+export const SITE_EMAIL = 'hola@sintropia-dev.com';
 export const SITE_PHONES = ['+527226068056', '+527292324754'] as const;
 export const SITE_SAME_AS = [] as string[];
 

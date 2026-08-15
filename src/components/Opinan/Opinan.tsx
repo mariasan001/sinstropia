@@ -40,21 +40,22 @@ const notes = [
       </svg>
     ),
   },
-  {
-    id: 'dabook',
-    name: 'Dabook',
-    who: 'Dirección',
-    lines: [
-      'No podíamos tener una tienda para el curso, otra para lo físico y otra para el archivo.',
-      'En Dabook vendemos, cobramos y volvemos a publicar en el mismo lugar. Se sigue armando con nosotros.',
-    ],
-    mark: (
-      <svg viewBox="0 0 48 48" aria-hidden>
-        <rect width="48" height="48" rx="12" fill="#060709" />
-        <rect x="15" y="16" width="18" height="16" rx="2" fill="none" stroke="#C1FF72" strokeWidth="2.8" />
-      </svg>
-    ),
-  },
+  // Temporalmente oculto
+  // {
+  //   id: 'dabook',
+  //   name: 'Dabook',
+  //   who: 'Dirección',
+  //   lines: [
+  //     'No podíamos tener una tienda para el curso, otra para lo físico y otra para el archivo.',
+  //     'En Dabook vendemos, cobramos y volvemos a publicar en el mismo lugar. Se sigue armando con nosotros.',
+  //   ],
+  //   mark: (
+  //     <svg viewBox="0 0 48 48" aria-hidden>
+  //       <rect width="48" height="48" rx="12" fill="#060709" />
+  //       <rect x="15" y="16" width="18" height="16" rx="2" fill="none" stroke="#C1FF72" strokeWidth="2.8" />
+  //     </svg>
+  //   ),
+  // },
   {
     id: 'herrera',
     name: 'Despacho Herrera',

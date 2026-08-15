@@ -46,8 +46,30 @@ export default function CotizarBubble() {
 
   const kindLabel = kinds.find((k) => k.id === kind)?.label ?? '';
   const budgetLabel = budgets.find((b) => b.id === budget)?.label ?? '';
-  const hello = nombre.trim() ? `Hola, soy ${nombre.trim()}` : 'Hola Sintropía';
   const stepIndex = step === 'kind' ? 1 : step === 'idea' ? 2 : step === 'budget' ? 3 : 4;
+
+  const buildWaMessage = () => {
+    const lines = [
+      'Hola Sintropía,',
+      '',
+      'Quiero cotizar un proyecto desde la web.',
+      '',
+      `Nombre: ${nombre.trim() || '—'}`,
+      `WhatsApp de contacto: ${whatsapp.trim() || '—'}`,
+      negocio.trim() ? `Negocio: ${negocio.trim()}` : null,
+      `Qué busca: ${kindLabel || '—'}`,
+      `Presupuesto: ${budgetLabel || '—'}`,
+      '',
+      'Idea / necesidad:',
+      idea.trim() || '—',
+      '',
+      'Gracias.',
+    ].filter((line): line is string => line !== null);
+
+    return lines.join('\n');
+  };
+
+  const waHref = `https://wa.me/${phones[0].wa}?text=${encodeURIComponent(buildWaMessage())}`;
 
   const openPanel = useCallback(() => {
     setOpen(true);
@@ -103,45 +125,18 @@ export default function CotizarBubble() {
     setStep('budget');
   };
 
-  const send = async (e: FormEvent) => {
+  const send = (e: FormEvent) => {
     e.preventDefault();
     if (!nombre.trim() || !whatsapp.trim() || sending) return;
 
     setSending(true);
     setError('');
 
-    try {
-      const res = await fetch('/api/cotizar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nombre: nombre.trim(),
-          whatsapp: whatsapp.trim(),
-          negocio: negocio.trim() || undefined,
-          kind,
-          kindLabel,
-          budget,
-          budgetLabel,
-          idea: idea.trim(),
-        }),
-      });
-
-      const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
-      if (!res.ok || !data?.ok) {
-        setError(data?.error || 'No se pudo enviar. Intenta de nuevo o por WhatsApp.');
-        return;
-      }
-      setStep('done');
-    } catch {
-      setError('No se pudo enviar. Revisa tu conexión o escríbenos por WhatsApp.');
-    } finally {
-      setSending(false);
-    }
+    // Por ahora: la cotización llega por WhatsApp con el resumen completo.
+    window.open(waHref, '_blank', 'noopener,noreferrer');
+    setStep('done');
+    setSending(false);
   };
-
-  const waHref = `https://wa.me/${phones[0].wa}?text=${encodeURIComponent(
-    kind ? `${hello}. Quiero cotizar: ${kindLabel}.` : 'Hola Sintropía, quiero cotizar un proyecto.',
-  )}`;
 
   const restart = () => {
     setStep('kind');
@@ -295,7 +290,7 @@ export default function CotizarBubble() {
                     className={s.submit}
                     disabled={!nombre.trim() || !whatsapp.trim() || sending}
                   >
-                    {sending ? 'Enviando…' : 'Enviar'} <Arrow />
+                    {sending ? 'Abriendo…' : 'Enviar por WhatsApp'} <Arrow />
                   </button>
                 </div>
               </form>
@@ -303,10 +298,10 @@ export default function CotizarBubble() {
 
             {step === 'done' ? (
               <div className={s.done}>
-                <h4>Ya nos llegó.</h4>
-                <p>Te escribimos por WhatsApp.</p>
+                <h4>Listo para enviar.</h4>
+                <p>Se abrió WhatsApp con tu cotización. Si no se abrió, usa el botón.</p>
                 <a className={s.submit} href={waHref} target="_blank" rel="noreferrer">
-                  WhatsApp <Arrow />
+                  Abrir WhatsApp <Arrow />
                 </a>
                 <button type="button" className={s.link} onClick={restart}>
                   Otra cotización
