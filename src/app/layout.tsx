@@ -60,8 +60,12 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [{ url: '/img/fav-icon.webp', type: 'image/webp' }],
-    apple: [{ url: '/img/fav-icon.webp', type: 'image/webp' }],
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/img/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/img/favicon-48.png', sizes: '48x48', type: 'image/png' },
+    ],
+    apple: [{ url: '/img/favicon-192.png', sizes: '192x192', type: 'image/png' }],
   },
   manifest: '/manifest.webmanifest',
   ...(verification

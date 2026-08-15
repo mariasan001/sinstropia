@@ -13,9 +13,15 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: 'es-MX',
     icons: [
       {
-        src: '/img/fav-icon.webp',
-        sizes: 'any',
-        type: 'image/webp',
+        src: '/img/favicon-192.png',
+        sizes: '192x192',
+        type: 'image/png',
+        purpose: 'any',
+      },
+      {
+        src: '/img/favicon-512.png',
+        sizes: '512x512',
+        type: 'image/png',
         purpose: 'any',
       },
     ],

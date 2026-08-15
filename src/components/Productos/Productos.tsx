@@ -37,7 +37,7 @@ const products = [
   {
     id: 'cotizador',
     tab: 'Cotizador',
-    kind: 'IA · se adapta a tu negocio',
+    kind: 'Próximamente · IA',
     title: 'Cotizador',
     colossus: 'Cotiza',
     text: [
@@ -100,6 +100,19 @@ function Arrow() {
 
 function Actions({ id }: { id: (typeof products)[number]['id'] }) {
   if (DEMO_ONLY) {
+    if (id === 'cotizador' || id === 'facturado') {
+      return (
+        <div className={s.actions}>
+          <span className={`${s.btn} ${s.soon}`} aria-disabled="true">
+            <span className={s.label}>
+              <span>Próximamente</span>
+              <span>En camino</span>
+            </span>
+          </span>
+        </div>
+      );
+    }
+
     return (
       <div className={s.actions}>
         <a
